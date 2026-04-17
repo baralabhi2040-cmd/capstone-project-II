@@ -1,3 +1,5 @@
+from time import perf_counter
+
 from fastapi.testclient import TestClient
 
 from app.core.database import get_db
@@ -39,7 +41,9 @@ def test_stats_shape_matches_dashboard_contract():
         "scope",
         "channel_counts",
         "risk_distribution",
+        "average_threat_score",
         "daily_activity",
+        "verification_required_for_snapshots",
     }
     assert expected_keys.issubset(data.keys())
     assert isinstance(data["channel_counts"], dict)
@@ -87,6 +91,19 @@ def test_sms_and_social_routes_match_frontend_contract():
     )
     assert social_response.status_code == 200
     assert social_response.json()["channel"] == "social"
+
+
+def test_url_prediction_does_not_block_on_cold_model_load():
+    start = perf_counter()
+    response = client.post(
+        "/predict/url",
+        json={"url": "http://secure-paypal-login.verify-account.ru/signin"},
+    )
+    duration = perf_counter() - start
+
+    assert response.status_code == 200
+    assert response.json()["channel"] == "url"
+    assert duration < 5
 
 
 def test_vercel_origins_are_allowed_by_cors():

@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from app.services.model_guard import load_model_assets
+from app.services.model_guard import get_model_assets_nonblocking, warm_model_assets
 from app.services.threat_score import (
     build_rule_indicator,
     build_scan_response,
@@ -22,22 +22,18 @@ MODEL_PATH = ML_DIR / "url_model.pkl"
 VECTORIZER_PATH = ML_DIR / "url_vectorizer.pkl"
 
 
-def detect_url(url: str) -> dict:
-    rule_indicators: list[dict] = []
-    url_lower = url.lower().strip()
-    url_model, url_vectorizer = load_model_assets(
+def warm_url_model_assets() -> None:
+    warm_model_assets(
         str(DATA_PATH),
         str(MODEL_PATH),
         str(VECTORIZER_PATH),
     )
 
+
+def _build_url_rule_indicators(url_lower: str) -> list[dict]:
+    rule_indicators: list[dict] = []
     domain = extract_domain(url_lower)
     tld = get_tld(domain)
-    ml_signal = None
-
-    if url_model is not None and url_vectorizer is not None:
-        vector = url_vectorizer.transform([url_lower])
-        ml_signal = extract_ml_signal(url_model, vector, channel_name="URL")
 
     if not url_lower.startswith("https://"):
         rule_indicators.append(
@@ -112,6 +108,32 @@ def detect_url(url: str) -> dict:
                 impact=20,
             )
         )
+
+    return rule_indicators
+
+
+def detect_url_rules_only(url: str) -> dict:
+    url_lower = url.lower().strip()
+    return build_scan_response(
+        channel="url",
+        rule_indicators=_build_url_rule_indicators(url_lower),
+        ml_signal=None,
+    )
+
+
+def detect_url(url: str) -> dict:
+    url_lower = url.lower().strip()
+    rule_indicators = _build_url_rule_indicators(url_lower)
+    url_model, url_vectorizer = get_model_assets_nonblocking(
+        str(DATA_PATH),
+        str(MODEL_PATH),
+        str(VECTORIZER_PATH),
+    )
+    ml_signal = None
+
+    if url_model is not None and url_vectorizer is not None:
+        vector = url_vectorizer.transform([url_lower])
+        ml_signal = extract_ml_signal(url_model, vector, channel_name="URL")
 
     return build_scan_response(
         channel="url",

@@ -1,4 +1,6 @@
+from contextlib import asynccontextmanager
 from pathlib import Path
+from threading import Thread
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -15,13 +17,31 @@ from app.routes.sms_routes import router as sms_router
 from app.routes.social_routes import router as social_router
 from app.routes.stats_routes import router as stats_router
 from app.routes.url_routes import router as url_router
+from app.services.url_detector import warm_url_model_assets
 from app.utils.logger import logger
 
-ensure_database_schema()
+
+def _run_background_task(name: str, task) -> None:
+    def _runner() -> None:
+        try:
+            task()
+            logger.info("Background startup task completed: %s", name)
+        except Exception as exc:
+            logger.exception("Background startup task failed: %s: %s", name, exc)
+
+    Thread(target=_runner, name=name, daemon=True).start()
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    _run_background_task("database-schema-warmup", ensure_database_schema)
+    _run_background_task("url-model-warmup", warm_url_model_assets)
+    yield
 
 app = FastAPI(
     title=settings.app_name,
     version=settings.app_version,
+    lifespan=lifespan,
 )
 
 app.add_middleware(

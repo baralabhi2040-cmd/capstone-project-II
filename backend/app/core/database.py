@@ -12,7 +12,11 @@ def normalize_database_url(database_url: str) -> str:
 
 
 normalized_database_url = normalize_database_url(settings.database_url)
-connect_args = {"check_same_thread": False} if normalized_database_url.startswith("sqlite") else {}
+connect_args = (
+    {"check_same_thread": False}
+    if normalized_database_url.startswith("sqlite")
+    else {"connect_timeout": 5}
+)
 
 engine = create_engine(
     normalized_database_url,

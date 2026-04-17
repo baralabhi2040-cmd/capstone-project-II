@@ -10,7 +10,19 @@ from app.services.mail_service import email_delivery_mode
 router = APIRouter(tags=["Health"])
 
 @router.get("/health")
-def health_check(db: Session = Depends(get_db)):
+def health_check():
+    return {
+        "status": "ok",
+        "database": "not_checked",
+        "version": settings.app_version,
+        "rules_engine": "enabled",
+        "auth": "enabled",
+        "email_delivery": email_delivery_mode(),
+    }
+
+
+@router.get("/health/deep")
+def deep_health_check(db: Session = Depends(get_db)):
     database_status = "connected"
     try:
         ensure_database_schema()
