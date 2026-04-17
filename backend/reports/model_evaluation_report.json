@@ -1,0 +1,209 @@
+{
+  "generated_at_utc": "2026-04-10T02:55:50.550793+00:00",
+  "models": {
+    "email": {
+      "dataset_rows": 5000,
+      "label_distribution": {
+        "legitimate": 2500,
+        "phishing": 2500
+      },
+      "test_rows": 1000,
+      "metrics": {
+        "accuracy": 0.997,
+        "macro_precision": 0.997,
+        "macro_recall": 0.997,
+        "macro_f1": 0.997,
+        "weighted_f1": 0.997,
+        "roc_auc": 1.0
+      },
+      "per_class": {
+        "legitimate": {
+          "precision": 0.994,
+          "recall": 1.0,
+          "f1_score": 0.997,
+          "support": 500
+        },
+        "phishing": {
+          "precision": 1.0,
+          "recall": 0.994,
+          "f1_score": 0.997,
+          "support": 500
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "legitimate",
+          "phishing"
+        ],
+        "values": [
+          [
+            500,
+            0
+          ],
+          [
+            3,
+            497
+          ]
+        ]
+      },
+      "artifacts": {
+        "model_path": "D:\\BIT(2k26)\\ICT 311\\Final Project\\backend\\ml\\email_model.pkl",
+        "vectorizer_path": "D:\\BIT(2k26)\\ICT 311\\Final Project\\backend\\ml\\email_vectorizer.pkl",
+        "dataset_path": "D:\\BIT(2k26)\\ICT 311\\Final Project\\backend\\data\\processed\\emails_processed.csv"
+      }
+    },
+    "sms": {
+      "dataset_rows": 5158,
+      "label_distribution": {
+        "legitimate": 4516,
+        "phishing": 642
+      },
+      "test_rows": 1032,
+      "metrics": {
+        "accuracy": 0.9826,
+        "macro_precision": 0.9571,
+        "macro_recall": 0.9632,
+        "macro_f1": 0.9601,
+        "weighted_f1": 0.9826,
+        "roc_auc": 0.9918
+      },
+      "per_class": {
+        "legitimate": {
+          "precision": 0.9911,
+          "recall": 0.9889,
+          "f1_score": 0.99,
+          "support": 904
+        },
+        "phishing": {
+          "precision": 0.9231,
+          "recall": 0.9375,
+          "f1_score": 0.9302,
+          "support": 128
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "legitimate",
+          "phishing"
+        ],
+        "values": [
+          [
+            894,
+            10
+          ],
+          [
+            8,
+            120
+          ]
+        ]
+      },
+      "artifacts": {
+        "model_path": "D:\\BIT(2k26)\\ICT 311\\Final Project\\backend\\ml\\sms_model.pkl",
+        "vectorizer_path": "D:\\BIT(2k26)\\ICT 311\\Final Project\\backend\\ml\\sms_vectorizer.pkl",
+        "dataset_path": "D:\\BIT(2k26)\\ICT 311\\Final Project\\backend\\data\\processed\\sms_processed.csv"
+      }
+    },
+    "social": {
+      "dataset_rows": 1779,
+      "label_distribution": {
+        "legitimate": 925,
+        "phishing": 854
+      },
+      "test_rows": 356,
+      "metrics": {
+        "accuracy": 0.9494,
+        "macro_precision": 0.9496,
+        "macro_recall": 0.9491,
+        "macro_f1": 0.9493,
+        "weighted_f1": 0.9494,
+        "roc_auc": 0.9811
+      },
+      "per_class": {
+        "legitimate": {
+          "precision": 0.9465,
+          "recall": 0.9568,
+          "f1_score": 0.9516,
+          "support": 185
+        },
+        "phishing": {
+          "precision": 0.9527,
+          "recall": 0.9415,
+          "f1_score": 0.9471,
+          "support": 171
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "legitimate",
+          "phishing"
+        ],
+        "values": [
+          [
+            177,
+            8
+          ],
+          [
+            10,
+            161
+          ]
+        ]
+      },
+      "artifacts": {
+        "model_path": "D:\\BIT(2k26)\\ICT 311\\Final Project\\backend\\ml\\social_model.pkl",
+        "vectorizer_path": "D:\\BIT(2k26)\\ICT 311\\Final Project\\backend\\ml\\social_vectorizer.pkl",
+        "dataset_path": "D:\\BIT(2k26)\\ICT 311\\Final Project\\backend\\data\\processed\\social_processed.csv"
+      }
+    },
+    "url": {
+      "dataset_rows": 235370,
+      "label_distribution": {
+        "legitimate": 134850,
+        "phishing": 100520
+      },
+      "test_rows": 47074,
+      "metrics": {
+        "accuracy": 0.9965,
+        "macro_precision": 0.997,
+        "macro_recall": 0.9959,
+        "macro_f1": 0.9964,
+        "weighted_f1": 0.9965,
+        "roc_auc": 0.9992
+      },
+      "per_class": {
+        "legitimate": {
+          "precision": 0.9939,
+          "recall": 1.0,
+          "f1_score": 0.997,
+          "support": 26970
+        },
+        "phishing": {
+          "precision": 1.0,
+          "recall": 0.9918,
+          "f1_score": 0.9959,
+          "support": 20104
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "legitimate",
+          "phishing"
+        ],
+        "values": [
+          [
+            26970,
+            0
+          ],
+          [
+            165,
+            19939
+          ]
+        ]
+      },
+      "artifacts": {
+        "model_path": "D:\\BIT(2k26)\\ICT 311\\Final Project\\backend\\ml\\url_model.pkl",
+        "vectorizer_path": "D:\\BIT(2k26)\\ICT 311\\Final Project\\backend\\ml\\url_vectorizer.pkl",
+        "dataset_path": "D:\\BIT(2k26)\\ICT 311\\Final Project\\backend\\data\\processed\\urls_processed.csv"
+      }
+    }
+  }
+}

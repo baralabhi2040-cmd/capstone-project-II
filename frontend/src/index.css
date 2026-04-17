@@ -1,0 +1,124 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap");
+
+:root {
+  color-scheme: dark;
+  --bg: #06101a;
+  --bg-2: #0a1624;
+  --bg-3: #0e1d31;
+  --panel: rgba(9, 18, 30, 0.76);
+  --panel-strong: rgba(10, 20, 34, 0.88);
+  --panel-soft: rgba(12, 24, 40, 0.72);
+  --card: rgba(11, 22, 36, 0.82);
+  --card-strong: rgba(14, 27, 45, 0.9);
+  --text: #f3f8ff;
+  --muted: #8ea4c7;
+  --muted-strong: #bccce6;
+  --border: rgba(93, 132, 181, 0.22);
+  --border-strong: rgba(77, 223, 255, 0.3);
+  --primary: #41dbff;
+  --primary-2: #16b9ff;
+  --success: #31d08b;
+  --warning: #ffb24c;
+  --danger: #ff6578;
+  --danger-2: #ff8d6a;
+  --shadow-soft: 0 16px 32px rgba(0, 0, 0, 0.18);
+  --shadow-md: 0 22px 48px rgba(0, 0, 0, 0.28);
+  --shadow-lg: 0 32px 72px rgba(0, 0, 0, 0.38);
+  --title-font: "Sora", "Segoe UI", sans-serif;
+  --body-font: "Manrope", "Segoe UI", sans-serif;
+  --radius-panel: 28px;
+  --radius-card: 22px;
+  --radius-pill: 999px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--body-font);
+  color: var(--text);
+  line-height: 1.5;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at top, rgba(65, 219, 255, 0.08), transparent 36%),
+    linear-gradient(180deg, #07111b 0%, #091422 52%, #0d1a2c 100%);
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+body::before {
+  background:
+    linear-gradient(rgba(95, 129, 176, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(95, 129, 176, 0.05) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+}
+
+body::after {
+  background: linear-gradient(180deg, rgba(65, 219, 255, 0.04), transparent 18%, transparent 82%, rgba(65, 219, 255, 0.02));
+  opacity: 0.8;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-family: var(--title-font);
+  letter-spacing: -0.04em;
+}
+
+p {
+  margin: 0;
+}
+
+::selection {
+  background: rgba(65, 219, 255, 0.75);
+  color: #021018;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(4, 11, 19, 0.92);
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid rgba(4, 11, 19, 0.92);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(65, 219, 255, 0.5), rgba(22, 185, 255, 0.35));
+}
