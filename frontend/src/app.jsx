@@ -1,4 +1,4 @@
-import "./App.css";
+import "./app.css";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Topbar from "./components/Topbar";
