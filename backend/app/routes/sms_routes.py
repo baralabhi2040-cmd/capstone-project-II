@@ -7,7 +7,7 @@ from app.core.security import sanitize_multiline_text, sanitize_text
 from app.models.user import User
 from app.schemas.response_schema import ScanResponse
 from app.schemas.sms_schema import SmsRequest
-from app.services.scan_log_service import persist_scan_result
+from app.services.scan_log_service import persist_scan_result_safely
 from app.services.sms_detector import detect_sms
 
 router = APIRouter(tags=["SMS"])
@@ -26,11 +26,15 @@ def predict_sms(
 
     combined_input = f"Sender: {sender}\nMessage: {message}"
 
-    log = persist_scan_result(
+    log = persist_scan_result_safely(
         db,
         scan_type="sms",
         input_text=combined_input,
         result=result,
         user=user,
     )
-    return {**result, "scan_id": log.id, "saved_to_account": user is not None}
+    return {
+        **result,
+        "scan_id": log.id if log else None,
+        "saved_to_account": user is not None and log is not None,
+    }

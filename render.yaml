@@ -18,6 +18,16 @@ services:
           property: connectionString
       - key: RELOAD
         value: "false"
+      - key: SERVE_FRONTEND
+        value: "false"
+      - key: FRONTEND_BASE_URL
+        value: https://capstone-project-ii.vercel.app
+      - key: BACKEND_BASE_URL
+        value: https://capstone-project-ii-0phn.onrender.com
+      - key: ALLOWED_ORIGINS
+        value: https://capstone-project-ii.vercel.app,http://localhost:5173,http://127.0.0.1:5173
+      - key: ALLOWED_ORIGIN_REGEX
+        value: ^https://capstone-project-ii(?:-[a-z0-9-]+)?\.vercel\.app$
       - key: EMAIL_DEBUG_PREVIEW
         value: "false"
       - key: SMTP_HOST

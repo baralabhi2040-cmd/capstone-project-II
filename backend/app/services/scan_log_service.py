@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.models.scan_log import ScanLog
 from app.models.user import User
+from app.utils.logger import logger
 
 
 def persist_scan_result(
@@ -37,6 +38,30 @@ def persist_scan_result(
     db.commit()
     db.refresh(log)
     return log
+
+
+def persist_scan_result_safely(
+    db: Session,
+    *,
+    scan_type: str,
+    input_text: str,
+    result: dict,
+    platform: str | None = None,
+    user: User | None = None,
+) -> ScanLog | None:
+    try:
+        return persist_scan_result(
+            db,
+            scan_type=scan_type,
+            input_text=input_text,
+            result=result,
+            platform=platform,
+            user=user,
+        )
+    except Exception as exc:
+        db.rollback()
+        logger.warning("Scan result logging skipped for %s: %s", scan_type, exc)
+        return None
 
 
 def scan_log_to_dict(row: ScanLog) -> dict:

@@ -14,6 +14,7 @@ from app.core.database import get_db
 from app.models.auth_token import AuthToken
 from app.models.user import User
 from app.models.verification_token import VerificationToken
+from app.utils.logger import logger
 
 PASSWORD_ITERATIONS = 390000
 bearer_scheme = HTTPBearer(auto_error=False)
@@ -157,7 +158,12 @@ def get_optional_user(
     credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
     db: Session = Depends(get_db),
 ) -> User | None:
-    return _load_user_from_credentials(credentials, db)
+    try:
+        return _load_user_from_credentials(credentials, db)
+    except Exception as exc:
+        db.rollback()
+        logger.warning("Optional auth skipped because token lookup failed: %s", exc)
+        return None
 
 
 def get_current_user(

@@ -7,7 +7,7 @@ from app.core.security import sanitize_multiline_text, sanitize_text
 from app.models.user import User
 from app.schemas.response_schema import ScanResponse
 from app.schemas.social_schema import SocialRequest
-from app.services.scan_log_service import persist_scan_result
+from app.services.scan_log_service import persist_scan_result_safely
 from app.services.social_detector import detect_social
 
 router = APIRouter(tags=["Social"])
@@ -26,7 +26,7 @@ def predict_social(
 
     combined_input = f"Platform: {platform}\nMessage: {message}"
 
-    log = persist_scan_result(
+    log = persist_scan_result_safely(
         db,
         scan_type="social",
         input_text=combined_input,
@@ -34,4 +34,8 @@ def predict_social(
         platform=platform,
         user=user,
     )
-    return {**result, "scan_id": log.id, "saved_to_account": user is not None}
+    return {
+        **result,
+        "scan_id": log.id if log else None,
+        "saved_to_account": user is not None and log is not None,
+    }

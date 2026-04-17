@@ -18,6 +18,8 @@ DEFAULT_DB_PATH = DATABASE_DIR / "logs.db"
 DEFAULT_DB_URL = f"sqlite:///{DEFAULT_DB_PATH.as_posix()}"
 DEFAULT_FRONTEND_URL = "http://127.0.0.1:5173"
 DEFAULT_PUBLIC_APP_URL = "http://127.0.0.1:8000"
+DEFAULT_VERCEL_FRONTEND_URL = "https://capstone-project-ii.vercel.app"
+DEFAULT_ALLOWED_ORIGIN_REGEX = r"^https://capstone-project-ii(?:-[a-z0-9-]+)?\.vercel\.app$"
 
 
 def _as_bool(value: str | None, default: bool) -> bool:
@@ -52,9 +54,13 @@ class Settings:
         default_origins = {
             "http://localhost:5173",
             "http://127.0.0.1:5173",
+            DEFAULT_VERCEL_FRONTEND_URL,
             self.frontend_base_url,
         }
         self.allowed_origins = sorted({*default_origins, *configured_origins})
+        self.allowed_origin_regex = (
+            os.getenv("ALLOWED_ORIGIN_REGEX") or DEFAULT_ALLOWED_ORIGIN_REGEX
+        ).strip()
         self.host = os.getenv("HOST", "127.0.0.1")
         self.port = int(os.getenv("PORT", "8000"))
         self.reload = reload_default
