@@ -16,37 +16,58 @@ import Loader from "../components/Loader";
 import StatCard from "../components/StatCard";
 import { useAuth } from "../context/AuthContext";
 
+const fallbackStats = {
+  total_scans: 0,
+  phishing_count: 0,
+  legitimate_count: 0,
+  channel_counts: {},
+  risk_distribution: {},
+  most_targeted_channel: "-",
+  average_threat_score: 0,
+  daily_activity: [],
+  scope: "offline",
+  verification_required_for_snapshots: true,
+};
+
 function Dashboard() {
   const { user } = useAuth();
   const [stats, setStats] = useState(null);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadStats = async () => {
       try {
         setError("");
-        setStats(null);
+        setLoading(true);
         const data = await getStats();
         setStats(data);
       } catch (err) {
-        setError(err?.response?.data?.detail || "Failed to load dashboard.");
+        setError(
+          err?.response?.data?.detail ||
+            "Dashboard is using an offline fallback because live stats could not be reached."
+        );
+        setStats((currentStats) => currentStats || fallbackStats);
+      } finally {
+        setLoading(false);
       }
     };
 
     loadStats();
   }, [user]);
 
-  if (error) return <div className="card error-text">{error}</div>;
-  if (!stats) return <Loader text="Loading dashboard..." />;
+  if (loading && !stats) return <Loader text="Loading dashboard..." />;
 
-  const channelData = Object.entries(stats.channel_counts || {}).map(
+  const activeStats = stats || fallbackStats;
+
+  const channelData = Object.entries(activeStats.channel_counts || {}).map(
     ([name, value]) => ({
       name: name.toUpperCase(),
       value
     })
   );
 
-  const riskData = Object.entries(stats.risk_distribution || {}).map(
+  const riskData = Object.entries(activeStats.risk_distribution || {}).map(
     ([name, value]) => ({
       name,
       value,
@@ -60,17 +81,23 @@ function Dashboard() {
     })
   );
 
-  const phishingRate = stats.total_scans
-    ? Math.round((stats.phishing_count / stats.total_scans) * 100)
+  const phishingRate = activeStats.total_scans
+    ? Math.round((activeStats.phishing_count / activeStats.total_scans) * 100)
     : 0;
   const activeChannels = channelData.filter((item) => item.value > 0).length;
-  const latestActivity = (stats.daily_activity || []).at(-1);
+  const latestActivity = (activeStats.daily_activity || []).at(-1);
   const latestVolume = latestActivity
     ? (latestActivity.phishing || 0) + (latestActivity.legitimate || 0)
     : 0;
 
   return (
     <div className="page-stack">
+      {error ? (
+        <div className="card error-text">
+          {error}
+        </div>
+      ) : null}
+
       <div className="card dashboard-hero">
         <div className="dashboard-hero-copy">
           <p className="hero-kicker">Threat command center</p>
@@ -90,7 +117,11 @@ function Dashboard() {
               {latestVolume} scans in latest activity window
             </span>
             <span className="badge badge-neutral">
-              {stats.scope === "personal" ? "Personal workspace" : "Guest workspace"}
+              {activeStats.scope === "personal"
+                ? "Personal workspace"
+                : activeStats.scope === "offline"
+                  ? "Offline fallback"
+                  : "Guest workspace"}
             </span>
           </div>
         </div>
@@ -103,7 +134,7 @@ function Dashboard() {
           </div>
           <div className="hero-metric">
             <p className="small">Most targeted lane</p>
-            <h4>{(stats.most_targeted_channel || "-").toUpperCase()}</h4>
+            <h4>{(activeStats.most_targeted_channel || "-").toUpperCase()}</h4>
             <p className="small">The busiest phishing surface in your log history</p>
           </div>
         </div>
@@ -112,25 +143,25 @@ function Dashboard() {
       <div className="card-grid">
         <StatCard
           title="Total Scans"
-          value={stats.total_scans}
+          value={activeStats.total_scans}
           subtitle="All scans captured across the monitoring workspace."
           tone="cyan"
         />
         <StatCard
           title="Phishing Detected"
-          value={stats.phishing_count}
+          value={activeStats.phishing_count}
           subtitle="Cases that crossed the phishing decision threshold."
           tone="danger"
         />
         <StatCard
           title="Legitimate"
-          value={stats.legitimate_count}
+          value={activeStats.legitimate_count}
           subtitle="Messages and links that passed the current checks."
           tone="success"
         />
         <StatCard
           title="Most Targeted Channel"
-          value={(stats.most_targeted_channel || "-").toUpperCase()}
+          value={(activeStats.most_targeted_channel || "-").toUpperCase()}
           subtitle="The channel drawing the most scan attention right now."
           tone="amber"
         />
@@ -200,7 +231,7 @@ function Dashboard() {
         </div>
         <div style={{ width: "100%", height: 320 }}>
           <ResponsiveContainer>
-            <BarChart data={stats.daily_activity || []}>
+            <BarChart data={activeStats.daily_activity || []}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(93,132,181,0.1)" />
               <XAxis dataKey="day" stroke="#8ea4c7" />
               <YAxis stroke="#8ea4c7" />
