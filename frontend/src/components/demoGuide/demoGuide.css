@@ -12,17 +12,19 @@
 }
 
 .demo-guide-backdrop {
+  display: none;
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 25% 18%, rgba(65, 219, 255, 0.12), transparent 28%),
-    radial-gradient(circle at 78% 70%, rgba(255, 101, 120, 0.08), transparent 28%),
-    rgba(1, 8, 14, 0.68);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+    radial-gradient(circle at 25% 18%, rgba(65, 219, 255, 0.1), transparent 28%),
+    radial-gradient(circle at 78% 70%, rgba(255, 101, 120, 0.06), transparent 28%),
+    rgba(1, 8, 14, 0.54);
+  backdrop-filter: blur(1.5px);
+  -webkit-backdrop-filter: blur(1.5px);
 }
 
 .demo-guide-ambient {
+  display: none;
   position: fixed;
   inset: 12vh 12vw;
   border-radius: 36px;
@@ -34,14 +36,14 @@
 
 .demo-guide-spotlight {
   position: fixed;
-  border-radius: 24px;
-  border: 1px solid rgba(111, 244, 255, 0.72);
-  background: rgba(65, 219, 255, 0.045);
+  border-radius: 18px;
+  border: 2px solid rgba(65, 219, 255, 0.8);
+  background: rgba(65, 219, 255, 0.025);
   box-shadow:
-    0 0 0 9999px rgba(1, 8, 14, 0.52),
-    0 0 0 5px rgba(65, 219, 255, 0.08),
-    0 0 34px rgba(65, 219, 255, 0.46),
+    0 0 0 4px rgba(65, 219, 255, 0.09),
+    0 0 26px rgba(65, 219, 255, 0.34),
     inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  animation: demo-guide-target-pulse 1.8s ease-in-out infinite;
   transition:
     top 0.26s ease,
     left 0.26s ease,
@@ -49,208 +51,172 @@
     height 0.26s ease;
 }
 
-.demo-guide-tooltip {
+.demo-guide-pointer {
   position: fixed;
-  width: min(420px, calc(100vw - 32px));
-  padding: 18px;
-  border: 1px solid rgba(93, 232, 255, 0.32);
-  border-radius: 24px;
-  color: var(--text);
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.035) 42%, rgba(255, 255, 255, 0.02)),
-    linear-gradient(180deg, rgba(8, 18, 30, 0.96), rgba(5, 13, 23, 0.94));
-  box-shadow:
-    0 28px 80px rgba(0, 0, 0, 0.52),
-    0 0 52px rgba(65, 219, 255, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  pointer-events: auto;
-  overflow: hidden;
+  z-index: 3;
+  color: #41dbff;
+  filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.44));
+  transform: translate(-7px, -7px);
+  transition:
+    left 0.58s cubic-bezier(0.2, 0.9, 0.2, 1),
+    top 0.58s cubic-bezier(0.2, 0.9, 0.2, 1);
 }
 
-.demo-guide-tooltip::after {
-  content: "";
-  position: absolute;
-  inset: auto 18px 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(65, 219, 255, 0.78), transparent);
-}
-
-.demo-guide-tooltip-glow {
-  position: absolute;
-  top: -80px;
-  right: -80px;
-  width: 190px;
-  height: 190px;
-  border-radius: 999px;
-  background: rgba(65, 219, 255, 0.16);
-  filter: blur(26px);
-  pointer-events: none;
-}
-
-.demo-guide-pill-row,
-.demo-guide-progress,
-.demo-guide-copy,
-.demo-guide-controls {
+.demo-guide-cursor {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  width: 34px;
+  height: 34px;
+  transform: rotate(-8deg);
 }
 
-.demo-guide-pill-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 14px;
-}
-
-.demo-guide-pill {
-  display: inline-flex;
-  min-height: 30px;
-  align-items: center;
-  padding: 6px 10px;
-  border: 1px solid rgba(65, 219, 255, 0.26);
+.demo-guide-click-pulse {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(65, 219, 255, 0.76);
   border-radius: 999px;
-  color: #bdf5ff;
-  background: rgba(65, 219, 255, 0.08);
-  font-size: 0.76rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  animation: demo-guide-click-pulse 1.25s ease-out infinite;
+}
+
+.demo-guide-pointer-chip {
+  position: absolute;
+  top: 22px;
+  left: 30px;
+  display: grid;
+  min-width: 210px;
+  max-width: min(320px, calc(100vw - 64px));
+  gap: 2px;
+  padding: 9px 12px;
+  border: 1px solid rgba(65, 219, 255, 0.32);
+  border-radius: 999px;
+  color: #eaf8ff;
+  background: rgba(5, 13, 23, 0.82);
+  box-shadow:
+    0 14px 36px rgba(0, 0, 0, 0.36),
+    0 0 24px rgba(65, 219, 255, 0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  white-space: nowrap;
+}
+
+.demo-guide-pointer-chip span {
+  color: #8fefff;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
-.demo-guide-pill.muted {
-  color: #a8bedf;
-  border-color: rgba(93, 132, 181, 0.2);
-  background: rgba(255, 255, 255, 0.035);
+.demo-guide-pointer-chip strong {
+  overflow: hidden;
+  color: #ffffff;
+  font-size: 0.84rem;
+  font-weight: 900;
+  text-overflow: ellipsis;
 }
 
-.demo-guide-progress-meta {
+.demo-guide-pointer.label-left .demo-guide-pointer-chip {
+  right: 30px;
+  left: auto;
+}
+
+.demo-guide-pointer.label-up .demo-guide-pointer-chip {
+  top: auto;
+  bottom: 24px;
+}
+
+.demo-guide-remote {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 4;
   display: flex;
-  justify-content: space-between;
-  color: var(--muted-strong);
-  font-size: 0.82rem;
-  font-weight: 800;
+  max-width: min(920px, calc(100vw - 44px));
+  align-items: center;
+  gap: 7px;
+  padding: 10px;
+  border: 1px solid rgba(65, 219, 255, 0.24);
+  border-radius: 999px;
+  background:
+    linear-gradient(135deg, rgba(7, 19, 32, 0.88), rgba(3, 9, 17, 0.82)),
+    rgba(5, 13, 23, 0.88);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.42),
+    0 0 28px rgba(65, 219, 255, 0.12);
+  pointer-events: auto;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
-.demo-guide-progress-track {
-  height: 9px;
-  margin-top: 8px;
+.demo-guide-remote-progress {
+  position: absolute;
+  top: -6px;
+  right: 18px;
+  left: 18px;
+  height: 3px;
   overflow: hidden;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.08);
 }
 
-.demo-guide-progress-fill {
+.demo-guide-remote-progress span {
+  display: block;
   height: 100%;
   border-radius: inherit;
   background: linear-gradient(90deg, #41dbff, #31d08b);
-  box-shadow: 0 0 18px rgba(65, 219, 255, 0.42);
-  transition: width 0.28s ease;
+  box-shadow: 0 0 16px rgba(65, 219, 255, 0.54);
+  transition: width 0.26s ease;
 }
 
-.demo-guide-copy {
-  margin-top: 18px;
-}
-
-.demo-guide-kicker {
-  color: rgba(201, 220, 248, 0.62);
-  font-size: 0.76rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.demo-guide-copy h3 {
-  margin-top: 8px;
-  font-size: 1.45rem;
-  line-height: 1.12;
-}
-
-.demo-guide-copy p:not(.demo-guide-kicker) {
-  margin-top: 10px;
-  color: var(--muted-strong);
-}
-
-.demo-guide-tip {
-  display: grid;
-  gap: 6px;
-  margin-top: 14px;
-  padding: 13px 14px;
-  border: 1px solid rgba(255, 178, 76, 0.2);
-  border-radius: 16px;
-  background: rgba(255, 178, 76, 0.075);
-}
-
-.demo-guide-tip strong {
-  color: #ffd49e;
+.demo-guide-remote-step {
+  min-width: 44px;
+  color: #bdf5ff;
   font-size: 0.82rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  font-weight: 900;
+  text-align: center;
 }
 
-.demo-guide-tip span {
-  color: #ffe4bf;
-  font-size: 0.9rem;
-}
-
-.demo-guide-controls {
-  display: grid;
-  gap: 10px;
-  margin-top: 18px;
-}
-
-.demo-guide-control-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.demo-guide-button {
-  min-height: 38px;
-  padding: 9px 12px;
-  border-radius: 13px;
-  font-size: 0.88rem;
-}
-
-.demo-guide-secondary-row {
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 10px;
-  border-top: 1px solid rgba(93, 132, 181, 0.16);
-}
-
-.demo-guide-text-button {
-  border: none;
-  background: transparent;
-  color: #a8bedf;
+.demo-guide-remote-button {
+  min-height: 34px;
+  padding: 8px 12px;
+  border: 1px solid rgba(93, 132, 181, 0.22);
+  border-radius: 999px;
+  color: #dceeff;
+  background: rgba(255, 255, 255, 0.055);
   cursor: pointer;
-  font-size: 0.84rem;
-  font-weight: 800;
+  font-size: 0.8rem;
+  font-weight: 900;
+  transition:
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease,
+    background 0.18s ease;
 }
 
-.demo-guide-text-button:hover {
-  color: #dff7ff;
+.demo-guide-remote-button:hover:not(:disabled) {
+  border-color: rgba(65, 219, 255, 0.48);
+  color: #ffffff;
+  background: rgba(65, 219, 255, 0.12);
+  transform: translateY(-1px);
 }
 
-.demo-guide-text-button.danger:hover {
-  color: #ffc0c8;
+.demo-guide-remote-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
 
-.demo-guide-jump-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: #a8bedf;
-  font-size: 0.84rem;
-  font-weight: 800;
+.demo-guide-remote-button.primary {
+  border-color: rgba(65, 219, 255, 0.46);
+  color: #06111f;
+  background: linear-gradient(135deg, #54e3ff, #31d08b);
 }
 
-.demo-guide-jump-select {
-  max-width: 170px;
-  padding: 8px 10px;
-  border: 1px solid rgba(93, 132, 181, 0.2);
-  border-radius: 12px;
-  color: var(--text);
-  background: rgba(4, 12, 21, 0.96);
+.demo-guide-remote-button.danger:hover:not(:disabled) {
+  border-color: rgba(255, 101, 120, 0.52);
+  background: rgba(255, 101, 120, 0.12);
 }
 
 .demo-guide-launcher {
@@ -258,39 +224,66 @@
 }
 
 @media (max-width: 760px) {
-  .demo-guide-tooltip {
-    left: 16px !important;
+  .demo-guide-pointer-chip {
+    max-width: calc(100vw - 72px);
+    min-width: 180px;
+    white-space: normal;
+  }
+
+  .demo-guide-remote {
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    border-radius: 22px;
+  }
+
+  .demo-guide-remote-progress {
     right: 16px;
-    top: auto !important;
-    bottom: 16px;
-    transform: none !important;
+    left: 16px;
   }
 
-  .demo-guide-control-row {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .demo-guide-remote-button {
+    flex: 1 1 auto;
   }
 
-  .demo-guide-secondary-row {
-    grid-template-columns: 1fr;
-  }
-
-  .demo-guide-jump-label {
-    grid-column: 1 / -1;
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .demo-guide-jump-select {
-    width: 100%;
-    max-width: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .demo-guide-overlay,
   .demo-guide-spotlight,
-  .demo-guide-progress-fill {
+  .demo-guide-pointer,
+  .demo-guide-click-pulse,
+  .demo-guide-remote-progress span {
     transition: none !important;
+    animation: none !important;
+  }
+}
+
+@keyframes demo-guide-click-pulse {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.55);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.4);
+  }
+}
+
+@keyframes demo-guide-target-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 4px rgba(65, 219, 255, 0.08),
+      0 0 24px rgba(65, 219, 255, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+  50% {
+    box-shadow:
+      0 0 0 7px rgba(65, 219, 255, 0.14),
+      0 0 38px rgba(65, 219, 255, 0.44),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
   }
 }

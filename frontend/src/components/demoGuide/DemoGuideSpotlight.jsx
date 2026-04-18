@@ -1,6 +1,6 @@
 function DemoGuideSpotlight({ rect }) {
   if (!rect) {
-    return <div className="demo-guide-ambient" aria-hidden="true" />;
+    return null;
   }
 
   return (

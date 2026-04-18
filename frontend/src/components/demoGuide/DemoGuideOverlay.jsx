@@ -1,18 +1,30 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useDemoGuide } from "../../hooks/useDemoGuide";
+import DemoGuidePointer from "./DemoGuidePointer";
 import DemoGuideSpotlight from "./DemoGuideSpotlight";
-import DemoGuideTooltip from "./DemoGuideTooltip";
 
-const SPOTLIGHT_PADDING = 12;
+const SPOTLIGHT_PADDING = 8;
+const VIEWPORT_MARGIN = 10;
 const MAX_TARGET_ATTEMPTS = 10;
 
 function getPaddedRect(rect) {
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+  const top = Math.max(VIEWPORT_MARGIN, rect.top - SPOTLIGHT_PADDING);
+  const left = Math.max(VIEWPORT_MARGIN, rect.left - SPOTLIGHT_PADDING);
+
   return {
-    top: Math.max(8, rect.top - SPOTLIGHT_PADDING),
-    left: Math.max(8, rect.left - SPOTLIGHT_PADDING),
-    width: rect.width + SPOTLIGHT_PADDING * 2,
-    height: rect.height + SPOTLIGHT_PADDING * 2,
+    top,
+    left,
+    width: Math.min(
+      rect.width + SPOTLIGHT_PADDING * 2,
+      viewportWidth - left - VIEWPORT_MARGIN
+    ),
+    height: Math.min(
+      rect.height + SPOTLIGHT_PADDING * 2,
+      viewportHeight - top - VIEWPORT_MARGIN
+    ),
   };
 }
 
@@ -97,9 +109,8 @@ function DemoGuideOverlay() {
 
   return (
     <div className={overlayClass} aria-live="polite">
-      <div className="demo-guide-backdrop" />
       <DemoGuideSpotlight rect={targetRect} />
-      <DemoGuideTooltip targetRect={targetRect} />
+      <DemoGuidePointer targetRect={targetRect} />
     </div>
   );
 }
