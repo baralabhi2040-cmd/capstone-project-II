@@ -48,7 +48,7 @@ function UrlScanner() {
 
   return (
     <div className="page-stack">
-      <div className="card scanner-intro">
+      <div id="url-guide-intro" className="card scanner-intro">
         <div className="scanner-intro-copy">
           <p className="hero-kicker">Link intercept studio</p>
           <h3 className="hero-title">Throw suspicious URLs into a faster visual triage loop</h3>
@@ -89,6 +89,7 @@ function UrlScanner() {
           <div>
             <label className="label">Enter URL</label>
             <input
+              id="url-input"
               className="input"
               type="text"
               placeholder="https://example.com/login"
@@ -103,7 +104,7 @@ function UrlScanner() {
           </div>
 
           <div className="row wrap">
-            <button className="button button-primary" type="submit">
+            <button id="url-scan-button" className="button button-primary" type="submit">
               Scan URL
             </button>
             <button
@@ -122,7 +123,17 @@ function UrlScanner() {
           {error ? <div className="error-text">{error}</div> : null}
         </form>
 
-        {loading ? <Loader text="Scanning URL..." /> : <ScanResultCard result={result} />}
+        {loading ? (
+          <Loader text="Scanning URL..." />
+        ) : (
+          <ScanResultCard
+            result={result}
+            inputSummary={{
+              type: "URL",
+              value: url || "No URL submitted yet.",
+            }}
+          />
+        )}
       </div>
     </div>
   );

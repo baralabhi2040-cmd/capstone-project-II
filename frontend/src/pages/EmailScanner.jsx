@@ -56,7 +56,7 @@ function EmailScanner() {
 
   return (
     <div className="page-stack">
-      <div className="card scanner-intro">
+      <div id="email-guide-intro" className="card scanner-intro">
         <div className="scanner-intro-copy">
           <p className="hero-kicker">Inbox evidence lab</p>
           <h3 className="hero-title">Stage sender, subject, and body content in a richer email triage workflow</h3>
@@ -99,6 +99,7 @@ function EmailScanner() {
           <div>
             <label className="label">Sender</label>
             <input
+              id="email-sender-input"
               className="input"
               type="text"
               placeholder="security@bank-alerts.com"
@@ -110,6 +111,7 @@ function EmailScanner() {
           <div>
             <label className="label">Subject</label>
             <input
+              id="email-subject-input"
               className="input"
               type="text"
               placeholder="Urgent: Verify your account now"
@@ -121,6 +123,7 @@ function EmailScanner() {
           <div>
             <label className="label">Email Body</label>
             <textarea
+              id="email-body-input"
               className="textarea"
               placeholder="Paste the email content here..."
               value={body}
@@ -134,7 +137,7 @@ function EmailScanner() {
           </div>
 
           <div className="row wrap">
-            <button className="button button-primary" type="submit">
+            <button id="email-scan-button" className="button button-primary" type="submit">
               Scan Email
             </button>
             <button
@@ -155,7 +158,19 @@ function EmailScanner() {
           {error ? <div className="error-text">{error}</div> : null}
         </form>
 
-        {loading ? <Loader text="Scanning email..." /> : <ScanResultCard result={result} />}
+        {loading ? (
+          <Loader text="Scanning email..." />
+        ) : (
+          <ScanResultCard
+            result={result}
+            inputSummary={{
+              type: "Email",
+              sender: sender || "No sender provided.",
+              subject: subject || "No subject provided.",
+              value: body || "No body submitted yet.",
+            }}
+          />
+        )}
       </div>
     </div>
   );

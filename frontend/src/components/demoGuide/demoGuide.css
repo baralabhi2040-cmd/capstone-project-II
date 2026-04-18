@@ -1,0 +1,296 @@
+.demo-guide-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+
+.demo-guide-overlay.is-ready {
+  opacity: 1;
+}
+
+.demo-guide-backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 25% 18%, rgba(65, 219, 255, 0.12), transparent 28%),
+    radial-gradient(circle at 78% 70%, rgba(255, 101, 120, 0.08), transparent 28%),
+    rgba(1, 8, 14, 0.68);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.demo-guide-ambient {
+  position: fixed;
+  inset: 12vh 12vw;
+  border-radius: 36px;
+  border: 1px solid rgba(65, 219, 255, 0.18);
+  box-shadow:
+    0 0 0 9999px rgba(1, 8, 14, 0.08),
+    0 0 80px rgba(65, 219, 255, 0.18);
+}
+
+.demo-guide-spotlight {
+  position: fixed;
+  border-radius: 24px;
+  border: 1px solid rgba(111, 244, 255, 0.72);
+  background: rgba(65, 219, 255, 0.045);
+  box-shadow:
+    0 0 0 9999px rgba(1, 8, 14, 0.52),
+    0 0 0 5px rgba(65, 219, 255, 0.08),
+    0 0 34px rgba(65, 219, 255, 0.46),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transition:
+    top 0.26s ease,
+    left 0.26s ease,
+    width 0.26s ease,
+    height 0.26s ease;
+}
+
+.demo-guide-tooltip {
+  position: fixed;
+  width: min(420px, calc(100vw - 32px));
+  padding: 18px;
+  border: 1px solid rgba(93, 232, 255, 0.32);
+  border-radius: 24px;
+  color: var(--text);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.035) 42%, rgba(255, 255, 255, 0.02)),
+    linear-gradient(180deg, rgba(8, 18, 30, 0.96), rgba(5, 13, 23, 0.94));
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.52),
+    0 0 52px rgba(65, 219, 255, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  pointer-events: auto;
+  overflow: hidden;
+}
+
+.demo-guide-tooltip::after {
+  content: "";
+  position: absolute;
+  inset: auto 18px 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(65, 219, 255, 0.78), transparent);
+}
+
+.demo-guide-tooltip-glow {
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 190px;
+  height: 190px;
+  border-radius: 999px;
+  background: rgba(65, 219, 255, 0.16);
+  filter: blur(26px);
+  pointer-events: none;
+}
+
+.demo-guide-pill-row,
+.demo-guide-progress,
+.demo-guide-copy,
+.demo-guide-controls {
+  position: relative;
+  z-index: 1;
+}
+
+.demo-guide-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.demo-guide-pill {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  padding: 6px 10px;
+  border: 1px solid rgba(65, 219, 255, 0.26);
+  border-radius: 999px;
+  color: #bdf5ff;
+  background: rgba(65, 219, 255, 0.08);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.demo-guide-pill.muted {
+  color: #a8bedf;
+  border-color: rgba(93, 132, 181, 0.2);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.demo-guide-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted-strong);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.demo-guide-progress-track {
+  height: 9px;
+  margin-top: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.demo-guide-progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #41dbff, #31d08b);
+  box-shadow: 0 0 18px rgba(65, 219, 255, 0.42);
+  transition: width 0.28s ease;
+}
+
+.demo-guide-copy {
+  margin-top: 18px;
+}
+
+.demo-guide-kicker {
+  color: rgba(201, 220, 248, 0.62);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.demo-guide-copy h3 {
+  margin-top: 8px;
+  font-size: 1.45rem;
+  line-height: 1.12;
+}
+
+.demo-guide-copy p:not(.demo-guide-kicker) {
+  margin-top: 10px;
+  color: var(--muted-strong);
+}
+
+.demo-guide-tip {
+  display: grid;
+  gap: 6px;
+  margin-top: 14px;
+  padding: 13px 14px;
+  border: 1px solid rgba(255, 178, 76, 0.2);
+  border-radius: 16px;
+  background: rgba(255, 178, 76, 0.075);
+}
+
+.demo-guide-tip strong {
+  color: #ffd49e;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.demo-guide-tip span {
+  color: #ffe4bf;
+  font-size: 0.9rem;
+}
+
+.demo-guide-controls {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.demo-guide-control-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.demo-guide-button {
+  min-height: 38px;
+  padding: 9px 12px;
+  border-radius: 13px;
+  font-size: 0.88rem;
+}
+
+.demo-guide-secondary-row {
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid rgba(93, 132, 181, 0.16);
+}
+
+.demo-guide-text-button {
+  border: none;
+  background: transparent;
+  color: #a8bedf;
+  cursor: pointer;
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.demo-guide-text-button:hover {
+  color: #dff7ff;
+}
+
+.demo-guide-text-button.danger:hover {
+  color: #ffc0c8;
+}
+
+.demo-guide-jump-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #a8bedf;
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.demo-guide-jump-select {
+  max-width: 170px;
+  padding: 8px 10px;
+  border: 1px solid rgba(93, 132, 181, 0.2);
+  border-radius: 12px;
+  color: var(--text);
+  background: rgba(4, 12, 21, 0.96);
+}
+
+.demo-guide-launcher {
+  border-color: rgba(65, 219, 255, 0.28);
+}
+
+@media (max-width: 760px) {
+  .demo-guide-tooltip {
+    left: 16px !important;
+    right: 16px;
+    top: auto !important;
+    bottom: 16px;
+    transform: none !important;
+  }
+
+  .demo-guide-control-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .demo-guide-secondary-row {
+    grid-template-columns: 1fr;
+  }
+
+  .demo-guide-jump-label {
+    grid-column: 1 / -1;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .demo-guide-jump-select {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .demo-guide-overlay,
+  .demo-guide-spotlight,
+  .demo-guide-progress-fill {
+    transition: none !important;
+  }
+}

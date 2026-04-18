@@ -52,7 +52,7 @@ function SmsScanner() {
 
   return (
     <div className="page-stack">
-      <div className="card scanner-intro">
+      <div id="sms-guide-intro" className="card scanner-intro">
         <div className="scanner-intro-copy">
           <p className="hero-kicker">Message triage lane</p>
           <h3 className="hero-title">Inspect SMS scams with faster presets and sharper visual feedback</h3>
@@ -94,6 +94,7 @@ function SmsScanner() {
           <div>
             <label className="label">Phone / Sender</label>
             <input
+              id="sms-sender-input"
               className="input"
               type="text"
               placeholder="+61 400 000 000"
@@ -105,6 +106,7 @@ function SmsScanner() {
           <div>
             <label className="label">SMS Content</label>
             <textarea
+              id="sms-message-input"
               className="textarea"
               placeholder="Paste the SMS content here..."
               value={message}
@@ -118,7 +120,7 @@ function SmsScanner() {
           </div>
 
           <div className="row wrap">
-            <button className="button button-primary" type="submit">
+            <button id="sms-scan-button" className="button button-primary" type="submit">
               Scan SMS
             </button>
             <button
@@ -138,7 +140,18 @@ function SmsScanner() {
           {error ? <div className="error-text">{error}</div> : null}
         </form>
 
-        {loading ? <Loader text="Scanning SMS..." /> : <ScanResultCard result={result} />}
+        {loading ? (
+          <Loader text="Scanning SMS..." />
+        ) : (
+          <ScanResultCard
+            result={result}
+            inputSummary={{
+              type: "SMS",
+              sender: sender || "No sender provided.",
+              value: message || "No SMS submitted yet.",
+            }}
+          />
+        )}
       </div>
     </div>
   );

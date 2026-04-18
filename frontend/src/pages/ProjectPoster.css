@@ -1,0 +1,238 @@
+.poster-page {
+  padding-bottom: 30px;
+}
+
+.poster-hero-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr);
+  gap: 22px;
+  align-items: stretch;
+}
+
+.poster-action-row {
+  margin-top: 24px;
+}
+
+.poster-hero-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.poster-hero-stats div,
+.poster-empty-state,
+.poster-pdf-placeholder {
+  border: 1px solid rgba(93, 132, 181, 0.18);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at top, rgba(65, 219, 255, 0.1), transparent 42%),
+    rgba(6, 14, 24, 0.54);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.poster-hero-stats div {
+  display: flex;
+  min-height: 190px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 22px;
+}
+
+.poster-hero-stats span,
+.poster-hero-stats small {
+  color: var(--muted);
+}
+
+.poster-hero-stats strong {
+  margin: 12px 0;
+  font-family: var(--title-font);
+  font-size: clamp(2.6rem, 4vw, 4.2rem);
+  line-height: 0.9;
+}
+
+.poster-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.85fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.poster-frame {
+  position: relative;
+  display: grid;
+  min-height: 620px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(65, 219, 255, 0.18);
+  border-radius: 24px;
+  background:
+    linear-gradient(135deg, rgba(65, 219, 255, 0.08), transparent 36%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent),
+    rgba(3, 10, 18, 0.78);
+}
+
+.poster-frame::before {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border: 1px dashed rgba(93, 132, 181, 0.24);
+  border-radius: 18px;
+  pointer-events: none;
+}
+
+.poster-frame img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  max-height: 820px;
+  object-fit: contain;
+  padding: 18px;
+  filter: drop-shadow(0 24px 50px rgba(0, 0, 0, 0.38));
+}
+
+.poster-empty-state,
+.poster-pdf-placeholder {
+  position: relative;
+  z-index: 1;
+  width: min(460px, calc(100% - 36px));
+  padding: 30px;
+  text-align: center;
+}
+
+.poster-empty-icon {
+  width: 74px;
+  height: 74px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 18px;
+  border-radius: 24px;
+  color: #041018;
+  font-family: var(--title-font);
+  font-weight: 900;
+  background: linear-gradient(135deg, rgba(114, 244, 255, 0.98), rgba(49, 208, 139, 0.92));
+}
+
+.poster-empty-state p,
+.poster-pdf-placeholder p {
+  margin-top: 10px;
+  color: var(--muted);
+}
+
+.poster-side-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.poster-summary-card h3 {
+  margin: 8px 0 12px;
+}
+
+.poster-tag-grid,
+.poster-team-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.poster-tag-grid span,
+.poster-team-grid span {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  padding: 7px 12px;
+  border: 1px solid rgba(93, 132, 181, 0.18);
+  border-radius: var(--radius-pill);
+  color: var(--muted-strong);
+  background: rgba(255, 255, 255, 0.035);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.poster-resource-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.poster-resource-list a {
+  display: grid;
+  gap: 5px;
+  padding: 14px 16px;
+  border: 1px solid rgba(93, 132, 181, 0.16);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), transparent),
+    rgba(6, 14, 24, 0.5);
+}
+
+.poster-resource-list a:hover {
+  border-color: rgba(65, 219, 255, 0.26);
+}
+
+.poster-resource-list span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.poster-supervisor {
+  margin-top: 18px;
+}
+
+.poster-qr-content {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.poster-qr-content img {
+  width: 120px;
+  height: 120px;
+  padding: 8px;
+  border-radius: 18px;
+  background: #fff;
+}
+
+.poster-pdf-frame {
+  width: 100%;
+  min-height: 760px;
+  border: 1px solid rgba(93, 132, 181, 0.18);
+  border-radius: 22px;
+  background: rgba(3, 10, 18, 0.9);
+}
+
+.poster-pdf-placeholder {
+  width: 100%;
+  min-height: 320px;
+  display: grid;
+  place-content: center;
+}
+
+.poster-pdf-placeholder code {
+  color: #bdf5ff;
+}
+
+@media (max-width: 1180px) {
+  .poster-hero-card,
+  .poster-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .poster-hero-stats,
+  .poster-qr-content {
+    grid-template-columns: 1fr;
+  }
+
+  .poster-frame {
+    min-height: 420px;
+  }
+
+  .poster-pdf-frame {
+    min-height: 520px;
+  }
+}

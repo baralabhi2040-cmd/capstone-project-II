@@ -98,7 +98,7 @@ function Dashboard() {
         </div>
       ) : null}
 
-      <div className="card dashboard-hero">
+      <div id="dashboard-hero" className="card dashboard-hero">
         <div className="dashboard-hero-copy">
           <p className="hero-kicker">Threat command center</p>
           <h3 className="hero-title">
@@ -142,24 +142,28 @@ function Dashboard() {
 
       <div className="card-grid">
         <StatCard
+          id="dashboard-total-scans"
           title="Total Scans"
           value={activeStats.total_scans}
           subtitle="All scans captured across the monitoring workspace."
           tone="cyan"
         />
         <StatCard
+          id="dashboard-phishing-count"
           title="Phishing Detected"
           value={activeStats.phishing_count}
           subtitle="Cases that crossed the phishing decision threshold."
           tone="danger"
         />
         <StatCard
+          id="dashboard-legitimate-count"
           title="Legitimate"
           value={activeStats.legitimate_count}
           subtitle="Messages and links that passed the current checks."
           tone="success"
         />
         <StatCard
+          id="dashboard-top-channel"
           title="Most Targeted Channel"
           value={(activeStats.most_targeted_channel || "-").toUpperCase()}
           subtitle="The channel drawing the most scan attention right now."
@@ -168,7 +172,7 @@ function Dashboard() {
       </div>
 
       <div className="grid-2">
-        <div className="card">
+        <div id="dashboard-channel-distribution" className="card">
           <div className="chart-card-header">
             <div>
               <p className="small">Coverage map</p>
@@ -189,7 +193,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="card">
+        <div id="dashboard-risk-distribution" className="card">
           <div className="chart-card-header">
             <div>
               <p className="small">Severity mix</p>
@@ -221,7 +225,7 @@ function Dashboard() {
         </div>
       </div>
 
-      <div className="card">
+      <div id="dashboard-daily-activity" className="card">
         <div className="chart-card-header">
           <div>
             <p className="small">Momentum</p>

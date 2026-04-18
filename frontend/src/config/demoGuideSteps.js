@@ -1,0 +1,277 @@
+export const demoGuideSteps = [
+  {
+    id: "dashboard-overview",
+    route: "/app",
+    target: "#dashboard-hero",
+    title: "Threat Command Dashboard",
+    description:
+      "Start here during a live presentation. The dashboard turns individual scans into a command-center view of phishing exposure across every channel.",
+    tip: "This is the safest opening screen because it works even when the audience has not scanned anything yet.",
+    placement: "bottom",
+    section: "dashboard",
+    optionalCtaText: "Show metrics",
+  },
+  {
+    id: "dashboard-total-scans",
+    route: "/app",
+    target: "#dashboard-total-scans",
+    title: "Total Scan Volume",
+    description:
+      "This card shows how many URL, email, SMS, and social checks are in the current workspace. It helps frame the demo as a live monitoring workflow.",
+    tip: "If the backend is warming up, the dashboard can still render a safe fallback instead of going blank.",
+    placement: "top",
+    section: "dashboard",
+  },
+  {
+    id: "dashboard-phishing-count",
+    route: "/app",
+    target: "#dashboard-phishing-count",
+    title: "Phishing Detections",
+    description:
+      "This card counts scans that crossed the phishing decision threshold. It gives the audience a quick severity signal before they inspect details.",
+    placement: "top",
+    section: "dashboard",
+  },
+  {
+    id: "dashboard-legitimate-count",
+    route: "/app",
+    target: "#dashboard-legitimate-count",
+    title: "Legitimate Results",
+    description:
+      "Not every message should be flagged. Showing legitimate results demonstrates that the system is scoring risk rather than blindly labelling everything malicious.",
+    placement: "top",
+    section: "dashboard",
+  },
+  {
+    id: "dashboard-channel-distribution",
+    route: "/app",
+    target: "#dashboard-channel-distribution",
+    title: "Channel Distribution",
+    description:
+      "This chart explains where suspicious activity is appearing: links, inboxes, text messages, or social platforms.",
+    tip: "For cybersecurity awareness, this helps users understand that phishing is not only an email problem.",
+    placement: "right",
+    section: "dashboard",
+  },
+  {
+    id: "dashboard-risk-distribution",
+    route: "/app",
+    target: "#dashboard-risk-distribution",
+    title: "Risk Severity Mix",
+    description:
+      "Semantic risk colors separate low, medium, high, and critical results so an audience can understand triage priority instantly.",
+    placement: "left",
+    section: "dashboard",
+  },
+  {
+    id: "dashboard-daily-activity",
+    route: "/app",
+    target: "#dashboard-daily-activity",
+    title: "7-Day Activity",
+    description:
+      "The activity chart shows how phishing pressure changes over time. This makes the project feel like an operational monitoring system, not only a form demo.",
+    placement: "top",
+    section: "dashboard",
+    optionalCtaText: "Go to URL Scanner",
+  },
+  {
+    id: "url-intro",
+    route: "/app/scan/url",
+    target: "#url-guide-intro",
+    title: "URL Scanner Workflow",
+    description:
+      "The URL lane checks suspicious links for HTTPS usage, IP addresses, unusual domains, credential words, and ML/rule-based risk signals.",
+    tip: "Use one of the preset links if you want a predictable live demo.",
+    placement: "bottom",
+    section: "url",
+  },
+  {
+    id: "url-input",
+    route: "/app/scan/url",
+    target: "#url-input",
+    title: "Paste a Suspicious Link",
+    description:
+      "This is where a user enters a link from an email, SMS, QR code, or social message before trusting it.",
+    tip: "Good phishing examples often include login, verify, secure, account, update, or bank wording.",
+    placement: "right",
+    section: "url",
+  },
+  {
+    id: "url-scan-button",
+    route: "/app/scan/url",
+    target: "#url-scan-button",
+    title: "Run Link Analysis",
+    description:
+      "The scan button sends the URL to the FastAPI detector while the frontend stays on the same API contract through VITE_API_BASE_URL.",
+    placement: "top",
+    section: "url",
+  },
+  {
+    id: "url-result-card",
+    route: "/app/scan/url",
+    target: "#scan-result-card",
+    title: "Result Card",
+    description:
+      "After scanning, this panel shows the verdict, confidence, threat score, ML score, rule score, and recommended response.",
+    tip: "If no scan has been run yet, this slot waits safely without breaking the tour.",
+    placement: "left",
+    section: "url",
+  },
+  {
+    id: "url-threat-score",
+    route: "/app/scan/url",
+    target: "#threat-score-panel",
+    title: "Hybrid Threat Score",
+    description:
+      "The final score blends model confidence with explainable rules. This helps a presenter explain both AI detection and human-readable evidence.",
+    placement: "left",
+    section: "url",
+    optionalFallbackBehavior: "skip",
+  },
+  {
+    id: "url-explanation",
+    route: "/app/scan/url",
+    target: "#scan-explanation-panel",
+    title: "Guided Detection Explanation",
+    description:
+      "This premium explanation panel turns the raw result into a teaching sequence: input, signals inspected, indicators found, verdict, and user action.",
+    placement: "top",
+    section: "url",
+    optionalFallbackBehavior: "skip",
+    optionalCtaText: "Go to Email Scanner",
+  },
+  {
+    id: "email-intro",
+    route: "/app/scan/email",
+    target: "#email-guide-intro",
+    title: "Email Evidence Lab",
+    description:
+      "The email scanner shows how phishing is detected from sender identity, subject pressure, body content, links, attachments, and impersonation patterns.",
+    placement: "bottom",
+    section: "email",
+  },
+  {
+    id: "email-sender",
+    route: "/app/scan/email",
+    target: "#email-sender-input",
+    title: "Sender Analysis",
+    description:
+      "A sender can look familiar while using a free mailbox or lookalike domain. The guide highlights why identity context matters.",
+    placement: "right",
+    section: "email",
+  },
+  {
+    id: "email-subject",
+    route: "/app/scan/email",
+    target: "#email-subject-input",
+    title: "Subject Pressure",
+    description:
+      "Phishing subjects often use urgency, account suspension, invoices, security alerts, or verification prompts to pressure the user.",
+    placement: "right",
+    section: "email",
+  },
+  {
+    id: "email-body",
+    route: "/app/scan/email",
+    target: "#email-body-input",
+    title: "Body Content Clues",
+    description:
+      "The body is inspected for credential requests, unsafe attachment language, financial fraud wording, and suspicious links.",
+    placement: "right",
+    section: "email",
+  },
+  {
+    id: "email-result",
+    route: "/app/scan/email",
+    target: "#scan-result-card",
+    title: "Email Verdict Explanation",
+    description:
+      "The result explains whether the email looks risky or legitimate, then converts the score into a recommended user action.",
+    placement: "left",
+    section: "email",
+    optionalCtaText: "Go to SMS Scanner",
+  },
+  {
+    id: "sms-intro",
+    route: "/app/scan/sms",
+    target: "#sms-guide-intro",
+    title: "SMS Scam Interceptor",
+    description:
+      "The SMS scanner demonstrates smishing detection: prize lures, delivery scams, short sender identifiers, urgency, and suspicious links.",
+    placement: "bottom",
+    section: "sms",
+  },
+  {
+    id: "sms-sender",
+    route: "/app/scan/sms",
+    target: "#sms-sender-input",
+    title: "Sender Trust",
+    description:
+      "Short codes and unfamiliar senders can be risky, especially when paired with links, reward language, or account warnings.",
+    placement: "right",
+    section: "sms",
+  },
+  {
+    id: "sms-message",
+    route: "/app/scan/sms",
+    target: "#sms-message-input",
+    title: "Smishing Message Content",
+    description:
+      "The SMS content is checked for urgency, large rewards, fake parcel issues, OTP/account wording, and shortened links.",
+    placement: "right",
+    section: "sms",
+  },
+  {
+    id: "sms-result",
+    route: "/app/scan/sms",
+    target: "#scan-result-card",
+    title: "SMS Verdict",
+    description:
+      "The final result teaches the audience how mobile phishing creates pressure and why the recommended action is usually not to tap or reply.",
+    placement: "left",
+    section: "sms",
+    optionalCtaText: "Go to Social Scanner",
+  },
+  {
+    id: "social-intro",
+    route: "/app/scan/social",
+    target: "#social-guide-intro",
+    title: "Social Message Watch",
+    description:
+      "The social scanner covers fake giveaways, support impersonation, crypto scams, emergency money requests, and account reset lures.",
+    placement: "bottom",
+    section: "social",
+  },
+  {
+    id: "social-platform",
+    route: "/app/scan/social",
+    target: "#social-platform-select",
+    title: "Platform Context",
+    description:
+      "Platform context changes the story. A suspicious Instagram giveaway or Telegram crypto lure carries different social-engineering cues.",
+    placement: "right",
+    section: "social",
+  },
+  {
+    id: "social-message",
+    route: "/app/scan/social",
+    target: "#social-message-input",
+    title: "Message Trust Evaluation",
+    description:
+      "The detector checks whether the message uses official-support language, giveaway bait, crypto profit claims, or account-access pressure.",
+    placement: "right",
+    section: "social",
+  },
+  {
+    id: "social-result",
+    route: "/app/scan/social",
+    target: "#scan-result-card",
+    title: "Final Guided Verdict",
+    description:
+      "This closes the live demo by showing that PhishGuard can explain suspicious behavior across multiple real-world communication channels.",
+    tip: "Use Restart Tour any time if the presentation needs to loop back to the dashboard.",
+    placement: "left",
+    section: "social",
+    optionalCtaText: "Finish tour",
+  },
+];

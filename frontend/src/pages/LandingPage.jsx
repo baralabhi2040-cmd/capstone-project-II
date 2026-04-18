@@ -1,43 +1,28 @@
 import { Link } from "react-router-dom";
 import "./LandingPage.css";
 
-const projects = [
-  {
-    title: "PhishGuard",
-    subtitle: "AI-Based Multi-Channel Phishing Detection System",
-    description:
-      "PhishGuard is a cybersecurity project designed to detect phishing attempts across URLs, emails, SMS, and social media using machine learning, rule-based detection, threat scoring, and an interactive dashboard.",
-    features: [
-      "Multi-channel phishing detection",
-      "Threat score and risk-level output",
-      "Interactive dashboard and analytics",
-      "FastAPI backend with React frontend",
-    ],
-    tech: ["React + Vite", "FastAPI", "Python", "Scikit-learn", "Pandas", "SQLite"],
-    accent: "cyan",
-  },
-  {
-    title: "ML-Based Intrusion Detection System",
-    subtitle: "Real-Time Alerting for Network Security Monitoring",
-    description:
-      "This project is a machine learning-based intrusion detection system that classifies network traffic as malicious or benign and generates real-time alerts using benchmark datasets and multiple ML models.",
-    features: [
-      "Intrusion detection with ML models",
-      "Real-time alert generation",
-      "Performance comparison of Random Forest, XGBoost, and Isolation Forest",
-      "Monitoring-ready workflow and reporting",
-    ],
-    tech: ["Python", "Scikit-learn", "Joblib", "Pandas", "CICIDS2017", "UNSW-NB15"],
-    accent: "red",
-  },
-];
+const project = {
+  title: "PhishGuard",
+  subtitle: "AI-Based Multi-Channel Phishing Detection System",
+  description:
+    "PhishGuard is a cybersecurity project designed to detect phishing attempts across URLs, emails, SMS, and social media using machine learning, rule-based detection, threat scoring, guided explanations, and an interactive dashboard.",
+  features: [
+    "Multi-channel phishing detection",
+    "Threat score and risk-level output",
+    "Interactive dashboard and analytics",
+    "Guided live demo walkthrough",
+    "FastAPI backend with React frontend",
+  ],
+  tech: ["React + Vite", "FastAPI", "Python", "Scikit-learn", "Pandas", "SQLite"],
+  accent: "cyan",
+};
 
 const platformFeatures = [
   "Explainable risk scoring",
   "Machine learning workflows",
   "Security analytics",
   "Dashboard reporting",
-  "Real-time alert thinking",
+  "Guided demo mode",
   "Production-style architecture",
 ];
 
@@ -74,18 +59,16 @@ function ProjectCard({ project }) {
       </div>
 
       <div className="landing-button-row">
-        {/* Replace # with the deployed project link. */}
-        <a href="#" className="landing-button landing-button-primary">
+        <Link to="/app" className="landing-button landing-button-primary">
           Live Demo
-        </a>
+        </Link>
         {/* Replace # with the repository URL. */}
         <a href="#" className="landing-button landing-button-secondary">
           GitHub
         </a>
-        {/* Replace # with the poster or PDF file URL. */}
-        <a href="#" className="landing-button landing-button-ghost">
+        <Link to="/app/poster" className="landing-button landing-button-ghost">
           Poster / PDF
-        </a>
+        </Link>
       </div>
     </article>
   );
@@ -100,12 +83,13 @@ function LandingPage() {
             <span className="landing-brand-mark">PG</span>
             <span>
               <strong>Cybersecurity Capstone</strong>
-              <small>AI security systems showcase</small>
+              <small>Phishing detection showcase</small>
             </span>
           </div>
           <div className="landing-nav-actions">
             <a href="#projects">Projects</a>
             <a href="#team">Team</a>
+            <Link to="/app/poster">Poster</Link>
             <Link to="/app" className="landing-nav-button">
               Open Dashboard
             </Link>
@@ -115,9 +99,9 @@ function LandingPage() {
         <div className="landing-hero-grid">
           <div className="landing-hero-copy">
             <p className="landing-kicker">QR Visitor Landing Page</p>
-            <h1>AI-powered cybersecurity projects built for detection, scoring, and response.</h1>
+            <h1>AI-powered phishing detection built for live analysis, scoring, and response.</h1>
             <p className="landing-hero-text">
-              Explore two machine-learning security systems focused on phishing detection and network intrusion monitoring, with dashboards, explainable outputs, and production-style workflows.
+              Explore PhishGuard as a focused capstone platform for detecting phishing across links, emails, SMS, and social messages with explainable outputs and a guided presentation workflow.
             </p>
             <div className="landing-hero-actions">
               <a href="#projects" className="landing-button landing-button-primary">
@@ -162,16 +146,14 @@ function LandingPage() {
       <section className="landing-section" id="projects">
         <div className="landing-section-heading">
           <p className="landing-kicker">Project Showcase</p>
-          <h2>Two security systems, one exhibition-ready landing page.</h2>
+          <h2>One focused phishing detection system, ready for exhibition.</h2>
           <p>
-            The showcase is designed for QR-code visitors who need a quick, professional overview before opening the full dashboard or project assets.
+            The showcase is designed for QR-code visitors who need a quick, professional overview before opening the live dashboard, guided demo, or project poster.
           </p>
         </div>
 
         <div className="landing-project-grid">
-          {projects.map((project) => (
-            <ProjectCard key={project.title} project={project} />
-          ))}
+          <ProjectCard project={project} />
         </div>
       </section>
 

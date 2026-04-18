@@ -52,7 +52,7 @@ function SocialScanner() {
 
   return (
     <div className="page-stack">
-      <div className="card scanner-intro">
+      <div id="social-guide-intro" className="card scanner-intro">
         <div className="scanner-intro-copy">
           <p className="hero-kicker">Conversation watch</p>
           <h3 className="hero-title">Stress-test suspicious DMs and support impersonation scenarios</h3>
@@ -94,6 +94,7 @@ function SocialScanner() {
           <div>
             <label className="label">Platform</label>
             <select
+              id="social-platform-select"
               className="select"
               value={platform}
               onChange={(e) => setPlatform(e.target.value)}
@@ -111,6 +112,7 @@ function SocialScanner() {
           <div>
             <label className="label">Message</label>
             <textarea
+              id="social-message-input"
               className="textarea"
               placeholder="Paste the message here..."
               value={message}
@@ -124,7 +126,7 @@ function SocialScanner() {
           </div>
 
           <div className="row wrap">
-            <button className="button button-primary" type="submit">
+            <button id="social-scan-button" className="button button-primary" type="submit">
               Scan Social Message
             </button>
             <button
@@ -144,7 +146,18 @@ function SocialScanner() {
           {error ? <div className="error-text">{error}</div> : null}
         </form>
 
-        {loading ? <Loader text="Scanning social message..." /> : <ScanResultCard result={result} />}
+        {loading ? (
+          <Loader text="Scanning social message..." />
+        ) : (
+          <ScanResultCard
+            result={result}
+            inputSummary={{
+              type: "Social",
+              platform,
+              value: message || "No social message submitted yet.",
+            }}
+          />
+        )}
       </div>
     </div>
   );

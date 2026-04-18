@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useDemoGuide } from "../hooks/useDemoGuide";
 
 const pageMeta = {
   "/": {
@@ -45,6 +46,12 @@ const pageMeta = {
     subtitle: "Compare channel exposure, risk distribution, and activity velocity from the backend scan history.",
     tag: "Trend lens"
   },
+  "/poster": {
+    eyebrow: "Presentation",
+    title: "Poster & Report",
+    subtitle: "Showcase the PhishGuard poster, PDF report, team details, QR access, and live demo resources.",
+    tag: "Capstone assets"
+  },
   "/settings": {
     eyebrow: "Operations",
     title: "System Settings",
@@ -68,6 +75,7 @@ const pageMeta = {
 function Topbar() {
   const location = useLocation();
   const { user, isVerified, signOut, resendVerification } = useAuth();
+  const { isActive, isPaused, resumeGuide, startGuide } = useDemoGuide();
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
   const appPath = location.pathname.replace(/^\/app(?=\/|$)/, "") || "/";
@@ -105,6 +113,24 @@ function Topbar() {
       </div>
       <div className="topbar-actions">
         {notice ? <span className="badge badge-neutral">{notice}</span> : null}
+        <button
+          id="demo-guide-launcher"
+          type="button"
+          className="button button-primary button-inline demo-guide-launcher"
+          onClick={() => {
+            if (isPaused) {
+              resumeGuide();
+              return;
+            }
+            startGuide(0);
+          }}
+        >
+          {isActive
+            ? "Restart Guided Demo"
+            : isPaused
+              ? "Resume Guided Demo"
+              : "Launch Guided Demo"}
+        </button>
         <span className="badge badge-neutral">{meta.tag}</span>
         <span className="badge badge-success">Hybrid scoring active</span>
         {user ? (

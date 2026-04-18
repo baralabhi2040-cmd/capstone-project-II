@@ -20,6 +20,7 @@ const groupedLinks = [
     items: [
       { to: "/app/logs", label: "Logs", code: "LOG", icon: "logs" },
       { to: "/app/analytics", label: "Analytics", code: "ANA", icon: "analytics" },
+      { to: "/app/poster", label: "Project Poster", code: "PDF", icon: "poster" },
       { to: "/app/settings", label: "Settings", code: "CFG", icon: "settings" },
       { to: "/app/auth", label: "Account", code: "ID", icon: "account" }
     ]

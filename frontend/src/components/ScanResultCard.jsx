@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import { sendSnapshotEmail } from "../api/api";
 import { useAuth } from "../context/AuthContext";
 import RiskMeter from "./RiskMeter";
+import ScanExplanationPanel from "./ScanExplanationPanel";
 
-function ScanResultCard({ result }) {
+function ScanResultCard({ result, inputSummary = null }) {
   const { user, isVerified } = useAuth();
   const [snapshotState, setSnapshotState] = useState("");
   const [snapshotError, setSnapshotError] = useState("");
@@ -20,8 +21,11 @@ function ScanResultCard({ result }) {
 
   if (!result) {
     return (
-      <div className="card">
+      <div id="scan-result-card" className="card scan-result-placeholder">
         <p className="muted">No scan result yet.</p>
+        <p className="small" style={{ marginTop: 8 }}>
+          Run a scan to unlock the verdict, threat score, indicators, and guided explanation panel.
+        </p>
       </div>
     );
   }
@@ -66,7 +70,7 @@ function ScanResultCard({ result }) {
   };
 
   return (
-    <div className="card">
+    <div id="scan-result-card" className="card">
       <div className="result-header">
         <div>
           <p className="small result-eyebrow">Hybrid verdict</p>
@@ -114,14 +118,16 @@ function ScanResultCard({ result }) {
         ) : null}
       </div>
 
-      <RiskMeter
-        score={result.threat_score}
-        mlScore={result.ml_score}
-        ruleScore={result.rule_score}
-      />
+      <div id="threat-score-panel">
+        <RiskMeter
+          score={result.threat_score}
+          mlScore={result.ml_score}
+          ruleScore={result.rule_score}
+        />
+      </div>
 
       <div className="result-detail-grid">
-        <div className="insight-panel">
+        <div id="risk-indicators-panel" className="insight-panel">
           <p className="small strong">Why it was flagged</p>
           <div className="indicator-list">
             {visibleIndicators.map((indicator, index) => (
@@ -138,7 +144,7 @@ function ScanResultCard({ result }) {
           </div>
         </div>
 
-        <div className="insight-panel recommendation-panel">
+        <div id="recommended-action-panel" className="insight-panel recommendation-panel">
           <p className="small strong">Recommended action</p>
           <p className="recommendation-text">{result.recommendation}</p>
           <div className="recommendation-note">
@@ -149,6 +155,8 @@ function ScanResultCard({ result }) {
           </div>
         </div>
       </div>
+
+      <ScanExplanationPanel result={result} inputSummary={inputSummary} />
 
       <div className="result-action-panel">
         <div>
