@@ -26,6 +26,29 @@ const platformFeatures = [
   "Production-style architecture",
 ];
 
+const previewAssets = [
+  {
+    title: "Dashboard",
+    image: "/assets/dashboard/dashboard-preview.png",
+    caption: "Command-center analytics for scan volume, risk split, and channel activity.",
+  },
+  {
+    title: "URL Scanner",
+    image: "/assets/scanners/url-scan.png",
+    caption: "Hybrid scoring for suspicious links, domains, and phishing keywords.",
+  },
+  {
+    title: "Email Scanner",
+    image: "/assets/scanners/email-scan.png",
+    caption: "Sender and content checks for impersonation, urgency, and credential lures.",
+  },
+  {
+    title: "SMS Scanner",
+    image: "/assets/scanners/sms-scan.png",
+    caption: "Smishing detection for reward bait, short-code abuse, and urgent links.",
+  },
+];
+
 function ProjectCard({ project }) {
   return (
     <article className={`landing-project-card accent-${project.accent}`}>
@@ -171,30 +194,49 @@ function LandingPage() {
 
       <section className="landing-section landing-screenshot-section">
         <div className="landing-section-heading">
-          <p className="landing-kicker">Dashboard Preview</p>
-          <h2>Screenshot placeholder for exhibition visuals.</h2>
+          <p className="landing-kicker">System Preview</p>
+          <h2>Real PhishGuard screenshots for exhibition visuals.</h2>
           <p>
-            Replace this area later with a real dashboard screenshot, architecture diagram, poster image, or project demo capture.
+            These previews come directly from the project public assets, so QR visitors can understand the dashboard and scanner workflows before entering the live app.
           </p>
         </div>
-        <div className="landing-screenshot-placeholder">
-          <div className="placeholder-topbar">
-            <span />
-            <span />
-            <span />
-          </div>
-          <div className="placeholder-body">
-            <div className="placeholder-sidebar" />
-            <div className="placeholder-content">
-              <div className="placeholder-line wide" />
-              <div className="placeholder-card-row">
-                <div />
-                <div />
-                <div />
-              </div>
-              <div className="placeholder-chart" />
+        <div className="landing-screenshot-showcase">
+          <div className="landing-screenshot-main">
+            <div className="preview-window-topbar">
+              <span />
+              <span />
+              <span />
+              <strong>phishguard-dashboard.png</strong>
             </div>
+            <img
+              src="/assets/dashboard/dashboard-preview.png?v=landing-preview-20260419"
+              alt="PhishGuard dashboard preview"
+            />
           </div>
+
+          <div className="landing-preview-grid">
+            {previewAssets.slice(1).map((asset) => (
+              <div className="landing-preview-card" key={asset.title}>
+                <img
+                  src={`${asset.image}?v=landing-preview-20260419`}
+                  alt={`${asset.title} preview`}
+                  loading="lazy"
+                />
+                <div>
+                  <strong>{asset.title}</strong>
+                  <p>{asset.caption}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="landing-preview-actions">
+          <Link to="/app/showcase" className="landing-button landing-button-primary">
+            Open Full Showcase
+          </Link>
+          <Link to="/app" className="landing-button landing-button-secondary">
+            Launch Live Dashboard
+          </Link>
         </div>
       </section>
 
