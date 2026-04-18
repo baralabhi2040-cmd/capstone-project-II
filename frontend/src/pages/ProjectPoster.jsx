@@ -1,38 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./ProjectPoster.css";
 
 const POSTER_PREVIEW_URL = "/assets/poster/poster-preview.jpg";
 const POSTER_PDF_URL = "/assets/poster/poster.pdf";
-
-function useAssetAvailability(url) {
-  const [available, setAvailable] = useState(false);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    const checkAsset = async () => {
-      try {
-        const response = await fetch(url, { method: "HEAD" });
-        const contentType = response.headers.get("content-type") || "";
-        if (!cancelled) {
-          setAvailable(response.ok && !contentType.includes("text/html"));
-        }
-      } catch {
-        if (!cancelled) {
-          setAvailable(false);
-        }
-      }
-    };
-
-    checkAsset();
-    return () => {
-      cancelled = true;
-    };
-  }, [url]);
-
-  return available;
-}
 
 function PosterPlaceholder() {
   return (
@@ -40,8 +11,8 @@ function PosterPlaceholder() {
       <div className="poster-empty-icon">PG</div>
       <h3>Poster preview is ready to be added</h3>
       <p>
-        Add your exhibition poster image as <strong>poster-preview.jpg</strong> in the
-        public poster folder to show it here automatically.
+        Add your exhibition poster image as <strong>poster-preview.jpg</strong> in
+        the public poster folder to show it here automatically.
       </p>
     </div>
   );
@@ -49,8 +20,6 @@ function PosterPlaceholder() {
 
 function ProjectPoster() {
   const [posterImageLoaded, setPosterImageLoaded] = useState(true);
-  const pdfAvailable = useAssetAvailability(POSTER_PDF_URL);
-  const hasPosterPreview = posterImageLoaded;
 
   return (
     <div className="page-stack poster-page">
@@ -77,7 +46,7 @@ function ProjectPoster() {
             </a>
             <a
               className="button button-secondary"
-              href={hasPosterPreview ? POSTER_PREVIEW_URL : POSTER_PDF_URL}
+              href={posterImageLoaded ? POSTER_PREVIEW_URL : POSTER_PDF_URL}
               target="_blank"
               rel="noreferrer"
             >
@@ -109,9 +78,7 @@ function ProjectPoster() {
               <p className="small">Poster preview</p>
               <h3>Capstone Exhibition Poster</h3>
             </div>
-            <span className={`badge ${pdfAvailable ? "badge-success" : "badge-warning"}`}>
-              {pdfAvailable ? "PDF ready" : "Add poster.pdf"}
-            </span>
+            <span className="badge badge-success">PDF ready</span>
           </div>
 
           <div className="poster-frame">
@@ -153,11 +120,11 @@ function ProjectPoster() {
             <div className="poster-resource-list">
               <a href={POSTER_PDF_URL} target="_blank" rel="noreferrer">
                 <strong>Open PDF in new tab</strong>
-                <span>{pdfAvailable ? "Ready to view" : "Add poster.pdf first"}</span>
+                <span>Ready to view</span>
               </a>
               <a href={POSTER_PREVIEW_URL} target="_blank" rel="noreferrer">
                 <strong>Open poster image</strong>
-                <span>{hasPosterPreview ? "Preview image ready" : "Add poster-preview.jpg first"}</span>
+                <span>Preview image ready</span>
               </a>
               <Link to="/app/scan/url">
                 <strong>Run live URL demo</strong>
@@ -213,22 +180,11 @@ function ProjectPoster() {
           </a>
         </div>
 
-        {pdfAvailable ? (
-          <iframe
-            className="poster-pdf-frame"
-            title="PhishGuard poster PDF preview"
-            src={POSTER_PDF_URL}
-          />
-        ) : (
-          <div className="poster-pdf-placeholder">
-            <h3>PDF preview will appear here after upload</h3>
-            <p>
-              Place <strong>poster.pdf</strong> in{" "}
-              <code>frontend/public/assets/poster/</code>, rebuild or redeploy,
-              and this section will embed it automatically.
-            </p>
-          </div>
-        )}
+        <iframe
+          className="poster-pdf-frame"
+          title="PhishGuard poster PDF preview"
+          src={POSTER_PDF_URL}
+        />
       </section>
     </div>
   );
