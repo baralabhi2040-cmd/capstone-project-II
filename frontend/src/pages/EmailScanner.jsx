@@ -33,25 +33,41 @@ function EmailScanner() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleScan = async (e) => {
-    e.preventDefault();
+  const runScan = async (targetSender, targetSubject, targetBody) => {
     setError("");
     setResult(null);
 
-    if (!isNonEmptyText(body)) {
+    if (!isNonEmptyText(targetBody)) {
       setError("Please enter the email body.");
       return;
     }
 
     try {
       setLoading(true);
-      const data = await scanEmail({ sender, subject, body });
+      const data = await scanEmail({
+        sender: targetSender,
+        subject: targetSubject,
+        body: targetBody,
+      });
       setResult(data);
     } catch (err) {
       setError(err?.response?.data?.detail || "Failed to scan email.");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleScan = async (e) => {
+    e.preventDefault();
+    runScan(sender, subject, body);
+  };
+
+  const handlePhishingExample = () => {
+    const example = presets[0];
+    setSender(example.sender);
+    setSubject(example.subject);
+    setBody(example.body);
+    runScan(example.sender, example.subject, example.body);
   };
 
   return (
@@ -137,6 +153,13 @@ function EmailScanner() {
           </div>
 
           <div className="row wrap">
+            <button
+              className="button button-secondary"
+              type="button"
+              onClick={handlePhishingExample}
+            >
+              Try Phishing Example
+            </button>
             <button id="email-scan-button" className="button button-primary" type="submit">
               Scan Email
             </button>

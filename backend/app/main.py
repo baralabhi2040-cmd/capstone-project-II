@@ -17,6 +17,9 @@ from app.routes.sms_routes import router as sms_router
 from app.routes.social_routes import router as social_router
 from app.routes.stats_routes import router as stats_router
 from app.routes.url_routes import router as url_router
+from app.services.email_detector import warm_email_model_assets
+from app.services.sms_detector import warm_sms_model_assets
+from app.services.social_detector import warm_social_model_assets
 from app.services.url_detector import warm_url_model_assets
 from app.utils.logger import logger
 
@@ -36,6 +39,9 @@ def _run_background_task(name: str, task) -> None:
 async def lifespan(_: FastAPI):
     _run_background_task("database-schema-warmup", ensure_database_schema)
     _run_background_task("url-model-warmup", warm_url_model_assets)
+    _run_background_task("email-model-warmup", warm_email_model_assets)
+    _run_background_task("sms-model-warmup", warm_sms_model_assets)
+    _run_background_task("social-model-warmup", warm_social_model_assets)
     yield
 
 app = FastAPI(

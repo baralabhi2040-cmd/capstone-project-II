@@ -311,6 +311,56 @@ def recommended_action(*, channel: str, label: str, risk_level: str) -> str:
     return f"No strong phishing evidence was found, but you should still verify unusual requests before acting on them."
 
 
+def recommended_action_steps(*, channel: str, label: str, risk_level: str) -> list[str]:
+    if label == "phishing":
+        if channel == "url":
+            return [
+                "Do not open the link from the message.",
+                "Type the official website address manually instead.",
+                "Report or block the suspicious link if it came from email, SMS, or social media.",
+            ]
+        if channel == "email":
+            return [
+                "Do not click links, download attachments, or reply.",
+                "Verify the sender through an official contact channel.",
+                "Report the email to your security team or mail provider.",
+            ]
+        if channel == "sms":
+            return [
+                "Do not tap links or reply to the SMS.",
+                "Contact the organisation using its official website or phone number.",
+                "Delete or report the message if it claims prizes, parcels, banking, or urgent verification.",
+            ]
+        return [
+            "Do not engage with the account, message, or links.",
+            "Verify the request through the official profile or website.",
+            "Report impersonation, giveaway, crypto, or support scams on the platform.",
+        ]
+
+    if risk_level in {"MEDIUM", "HIGH"}:
+        return [
+            "Pause before taking action.",
+            "Verify the sender and destination through an official channel.",
+            "Avoid sharing passwords, payment details, or verification codes.",
+        ]
+
+    return [
+        "No strong phishing evidence was found.",
+        "Still verify unusual requests before clicking, replying, or sharing information.",
+    ]
+
+
+def public_risk_factors(indicators: list[dict]) -> list[str]:
+    factors = [
+        f"{indicator['title']}: {indicator['detail']}"
+        for indicator in indicators
+        if indicator.get("impact", 0) > 0 or indicator.get("source") == "ml"
+    ]
+    if factors:
+        return factors[:6]
+    return ["No strong phishing indicators were detected."]
+
+
 def build_scan_response(
     *,
     channel: str,
@@ -371,7 +421,21 @@ def build_scan_response(
 
     reasons = [indicator["detail"] for indicator in indicators]
 
+    summary = summarize_assessment(
+        channel=channel,
+        label=label,
+        risk_level=risk_level,
+        ml_score=ml_score,
+        rule_score=rule_score,
+    )
+    recommendation = recommended_action(
+        channel=channel,
+        label=label,
+        risk_level=risk_level,
+    )
+
     return {
+        "prediction": label,
         "label": label,
         "confidence": confidence,
         "threat_score": threat_score,
@@ -381,17 +445,14 @@ def build_scan_response(
         "channel": channel,
         "platform": platform,
         "reasons": reasons,
-        "summary": summarize_assessment(
-            channel=channel,
-            label=label,
-            risk_level=risk_level,
-            ml_score=ml_score,
-            rule_score=rule_score,
-        ),
-        "recommendation": recommended_action(
+        "risk_factors": public_risk_factors(indicators),
+        "explanation": summary,
+        "recommended_actions": recommended_action_steps(
             channel=channel,
             label=label,
             risk_level=risk_level,
         ),
+        "summary": summary,
+        "recommendation": recommendation,
         "indicators": indicators,
     }

@@ -23,8 +23,14 @@ def degraded_scan_response(
         "PhishGuard returned a degraded fallback result because the full detector "
         "could not complete safely."
     )
+    result["explanation"] = result["summary"]
     result["recommendation"] = (
         "Treat this item cautiously and retry the scan shortly. If it is urgent, "
         "verify through an official channel before acting."
     )
+    result["recommended_actions"] = [
+        "Treat the item cautiously until a complete scan succeeds.",
+        "Retry the scan shortly.",
+        "Verify urgent requests through an official channel before acting.",
+    ]
     return result

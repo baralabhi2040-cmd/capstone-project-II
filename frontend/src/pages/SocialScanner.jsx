@@ -29,25 +29,39 @@ function SocialScanner() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleScan = async (e) => {
-    e.preventDefault();
+  const runScan = async (targetPlatform, targetMessage) => {
     setError("");
     setResult(null);
 
-    if (!isNonEmptyText(message)) {
+    if (!isNonEmptyText(targetMessage)) {
       setError("Please enter the social media message.");
       return;
     }
 
     try {
       setLoading(true);
-      const data = await scanSocial({ platform, message });
+      const data = await scanSocial({
+        platform: targetPlatform,
+        message: targetMessage,
+      });
       setResult(data);
     } catch (err) {
       setError(err?.response?.data?.detail || "Failed to scan social message.");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleScan = async (e) => {
+    e.preventDefault();
+    runScan(platform, message);
+  };
+
+  const handlePhishingExample = () => {
+    const example = presets[0];
+    setPlatform(example.platform);
+    setMessage(example.message);
+    runScan(example.platform, example.message);
   };
 
   return (
@@ -126,6 +140,13 @@ function SocialScanner() {
           </div>
 
           <div className="row wrap">
+            <button
+              className="button button-secondary"
+              type="button"
+              onClick={handlePhishingExample}
+            >
+              Try Phishing Example
+            </button>
             <button id="social-scan-button" className="button button-primary" type="submit">
               Scan Social Message
             </button>

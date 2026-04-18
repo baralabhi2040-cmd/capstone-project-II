@@ -42,9 +42,7 @@ function DemoGuidePointer({ targetRect }) {
     nextStep,
     prevStep,
     skipStep,
-    skipSection,
     exitGuide,
-    pauseGuide,
     restartGuide,
   } = useDemoGuide();
   const isFirst = currentStepIndex === 0;
@@ -87,6 +85,17 @@ function DemoGuidePointer({ targetRect }) {
         </div>
       </div>
 
+      <div className="demo-guide-info-ribbon" key={currentStep.id} role="status">
+        <div className="demo-guide-info-main">
+          <span>
+            Step {currentStepIndex + 1} of {steps.length} -{" "}
+            {currentStep.section}
+          </span>
+          <strong>{currentStep.title}</strong>
+          <p>{currentStep.description}</p>
+        </div>
+      </div>
+
       <div className="demo-guide-remote" role="toolbar" aria-label="Live demo controls">
         <div className="demo-guide-remote-progress" aria-hidden="true">
           <span style={{ width: `${progress}%` }} />
@@ -114,21 +123,7 @@ function DemoGuidePointer({ targetRect }) {
           className="demo-guide-remote-button"
           onClick={() => skipStep()}
         >
-          Skip
-        </button>
-        <button
-          type="button"
-          className="demo-guide-remote-button"
-          onClick={skipSection}
-        >
-          Skip Section
-        </button>
-        <button
-          type="button"
-          className="demo-guide-remote-button"
-          onClick={pauseGuide}
-        >
-          Later
+          Skip Step
         </button>
         <button
           type="button"

@@ -7,6 +7,7 @@ import SocialScanner from "../pages/SocialScanner";
 import Logs from "../pages/Logs";
 import Analytics from "../pages/Analytics";
 import ProjectPoster from "../pages/ProjectPoster";
+import Showcase from "../pages/Showcase";
 import Settings from "../pages/Settings";
 import Auth from "../pages/Auth";
 import VerifyEmail from "../pages/VerifyEmail";
@@ -23,6 +24,7 @@ function AppRoutes() {
       <Route path="scan/social" element={<SocialScanner />} />
       <Route path="logs" element={<Logs />} />
       <Route path="analytics" element={<Analytics />} />
+      <Route path="showcase" element={<Showcase />} />
       <Route path="poster" element={<ProjectPoster />} />
       <Route path="settings" element={<Settings />} />
       <Route path="*" element={<Navigate to="/app" replace />} />

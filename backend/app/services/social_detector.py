@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from app.services.model_guard import load_model_assets
+from app.services.model_guard import get_model_assets_nonblocking, warm_model_assets
 from app.services.threat_score import (
     build_rule_indicator,
     build_scan_response,
@@ -36,11 +36,19 @@ MODEL_PATH = ML_DIR / "social_model.pkl"
 VECTORIZER_PATH = ML_DIR / "social_vectorizer.pkl"
 
 
+def warm_social_model_assets() -> None:
+    warm_model_assets(
+        str(DATA_PATH),
+        str(MODEL_PATH),
+        str(VECTORIZER_PATH),
+    )
+
+
 def detect_social(platform: str, message: str) -> dict:
     rule_indicators: list[dict] = []
     text = message.lower().strip()
     platform_name = platform.lower().strip()
-    social_model, social_vectorizer = load_model_assets(
+    social_model, social_vectorizer = get_model_assets_nonblocking(
         str(DATA_PATH),
         str(MODEL_PATH),
         str(VECTORIZER_PATH),

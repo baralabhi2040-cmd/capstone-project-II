@@ -35,6 +35,7 @@ function App() {
       <Route path="/verify-email" element={<LegacyAppRedirect />} />
       <Route path="/logs" element={<LegacyAppRedirect />} />
       <Route path="/analytics" element={<LegacyAppRedirect />} />
+      <Route path="/showcase" element={<LegacyAppRedirect />} />
       <Route path="/poster" element={<LegacyAppRedirect />} />
       <Route path="/settings" element={<LegacyAppRedirect />} />
       <Route path="*" element={<Navigate to="/" replace />} />

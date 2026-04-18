@@ -128,6 +128,56 @@
   bottom: 24px;
 }
 
+.demo-guide-info-ribbon {
+  position: fixed;
+  right: 22px;
+  bottom: 84px;
+  left: 348px;
+  z-index: 4;
+  display: block;
+  max-width: 720px;
+  padding: 12px;
+  border: 1px solid rgba(65, 219, 255, 0.2);
+  border-radius: 22px;
+  color: #eaf8ff;
+  background:
+    linear-gradient(135deg, rgba(7, 19, 32, 0.92), rgba(3, 9, 17, 0.86)),
+    rgba(5, 13, 23, 0.9);
+  box-shadow:
+    0 16px 44px rgba(0, 0, 0, 0.34),
+    0 0 24px rgba(65, 219, 255, 0.1);
+  pointer-events: none;
+  animation: demo-guide-info-enter 0.24s ease both;
+}
+
+.demo-guide-info-main {
+  min-width: 0;
+}
+
+.demo-guide-info-main span {
+  display: inline-flex;
+  margin-bottom: 4px;
+  color: #8fefff;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.demo-guide-info-main strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.demo-guide-info-main p {
+  margin-top: 4px;
+  color: #b8cae4;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
 .demo-guide-remote {
   position: fixed;
   right: 22px;
@@ -239,6 +289,17 @@
     border-radius: 22px;
   }
 
+  .demo-guide-info-ribbon {
+    right: 12px;
+    bottom: 138px;
+    left: 12px;
+    border-radius: 18px;
+  }
+
+  .demo-guide-info-main p {
+    font-size: 0.82rem;
+  }
+
   .demo-guide-remote-progress {
     right: 16px;
     left: 16px;
@@ -255,9 +316,21 @@
   .demo-guide-spotlight,
   .demo-guide-pointer,
   .demo-guide-click-pulse,
+  .demo-guide-info-ribbon,
   .demo-guide-remote-progress span {
     transition: none !important;
     animation: none !important;
+  }
+}
+
+@keyframes demo-guide-info-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

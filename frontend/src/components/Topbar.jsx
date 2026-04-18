@@ -46,6 +46,12 @@ const pageMeta = {
     subtitle: "Compare channel exposure, risk distribution, and activity velocity from the backend scan history.",
     tag: "Trend lens"
   },
+  "/showcase": {
+    eyebrow: "Presentation",
+    title: "Project Showcase",
+    subtitle: "Browse dashboard previews, scanner screenshots, poster assets, and presentation visuals.",
+    tag: "Visual demo"
+  },
   "/poster": {
     eyebrow: "Presentation",
     title: "Poster & Report",
@@ -129,7 +135,7 @@ function Topbar() {
             ? "Restart Guided Demo"
             : isPaused
               ? "Resume Guided Demo"
-              : "Launch Guided Demo"}
+              : "Start Demo Guidance"}
         </button>
         <span className="badge badge-neutral">{meta.tag}</span>
         <span className="badge badge-success">Hybrid scoring active</span>

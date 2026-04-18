@@ -5,24 +5,51 @@ function formatScore(score) {
 function RiskMeter({ score = 0, mlScore = null, ruleScore = 0 }) {
   const safeScore = Math.max(0, Math.min(100, score));
 
-  let className = "risk-fill meter-low";
-  if (safeScore >= 70) className = "risk-fill meter-high";
-  else if (safeScore >= 40) className = "risk-fill meter-medium";
+  let tone = "low";
+  let label = "Safe";
+  if (safeScore >= 70) {
+    tone = "high";
+    label = "Phishing";
+  } else if (safeScore >= 40) {
+    tone = "medium";
+    label = "Suspicious";
+  }
 
   return (
-    <div>
+    <div className={`risk-meter-card risk-${tone}`}>
       <div className="row-between wrap">
-        <p className="small strong" style={{ margin: 0 }}>
-          Hybrid threat score
-        </p>
-        <p className="small" style={{ margin: 0 }}>
-          Built from ML + rule checks
-        </p>
+        <div>
+          <p className="small strong" style={{ margin: 0 }}>
+            Visual risk meter
+          </p>
+          <p className="small" style={{ margin: "4px 0 0" }}>
+            Green means safe, yellow means suspicious, and red means phishing.
+          </p>
+        </div>
+        <span className={`badge risk-meter-badge badge-${tone === "high" ? "danger" : tone === "medium" ? "warning" : "success"}`}>
+          {label}
+        </span>
       </div>
-      <div className="risk-meter">
-        <div className={className} style={{ width: `${safeScore}%` }} />
+
+      <div className="risk-gauge-row">
+        <div className="risk-gauge-orb">
+          <span>{safeScore}</span>
+          <small>/100</small>
+        </div>
+        <div className="risk-meter-stack">
+          <div className="risk-meter">
+            <div
+              className={`risk-fill meter-${tone}`}
+              style={{ width: `${safeScore}%` }}
+            />
+          </div>
+          <div className="risk-meter-scale">
+            <span>Safe</span>
+            <span>Suspicious</span>
+            <span>Phishing</span>
+          </div>
+        </div>
       </div>
-      <p className="small">Overall score: {safeScore}/100</p>
 
       <div className="score-breakdown-grid">
         <div className="score-breakdown-card">

@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class ScanIndicator(BaseModel):
@@ -15,6 +15,7 @@ class ScanIndicator(BaseModel):
 class ScanResponse(BaseModel):
     scan_id: Optional[int] = None
     saved_to_account: bool = False
+    prediction: Optional[str] = None
     label: str
     confidence: float
     threat_score: int
@@ -24,6 +25,9 @@ class ScanResponse(BaseModel):
     channel: str
     platform: Optional[str] = None
     reasons: list[str]
+    risk_factors: list[str] = Field(default_factory=list)
+    explanation: Optional[str] = None
+    recommended_actions: list[str] = Field(default_factory=list)
     summary: str
     recommendation: str
     indicators: list[ScanIndicator]

@@ -1,7 +1,7 @@
 import re
 from pathlib import Path
 
-from app.services.model_guard import load_model_assets
+from app.services.model_guard import get_model_assets_nonblocking, warm_model_assets
 from app.services.threat_score import (
     build_rule_indicator,
     build_scan_response,
@@ -43,10 +43,18 @@ MODEL_PATH = ML_DIR / "sms_model.pkl"
 VECTORIZER_PATH = ML_DIR / "sms_vectorizer.pkl"
 
 
+def warm_sms_model_assets() -> None:
+    warm_model_assets(
+        str(DATA_PATH),
+        str(MODEL_PATH),
+        str(VECTORIZER_PATH),
+    )
+
+
 def detect_sms(sender: str, message: str) -> dict:
     rule_indicators: list[dict] = []
     text = message.lower().strip()
-    sms_model, sms_vectorizer = load_model_assets(
+    sms_model, sms_vectorizer = get_model_assets_nonblocking(
         str(DATA_PATH),
         str(MODEL_PATH),
         str(VECTORIZER_PATH),

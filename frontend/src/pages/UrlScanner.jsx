@@ -25,25 +25,35 @@ function UrlScanner() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleScan = async (e) => {
-    e.preventDefault();
+  const runScan = async (targetUrl) => {
     setError("");
     setResult(null);
 
-    if (!isValidUrl(url)) {
+    if (!isValidUrl(targetUrl)) {
       setError("Please enter a valid URL starting with http:// or https://");
       return;
     }
 
     try {
       setLoading(true);
-      const data = await scanUrl({ url });
+      const data = await scanUrl({ url: targetUrl });
       setResult(data);
     } catch (err) {
       setError(err?.response?.data?.detail || "Failed to scan URL.");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleScan = async (e) => {
+    e.preventDefault();
+    runScan(url);
+  };
+
+  const handlePhishingExample = () => {
+    const example = presets[0].value;
+    setUrl(example);
+    runScan(example);
   };
 
   return (
@@ -104,6 +114,13 @@ function UrlScanner() {
           </div>
 
           <div className="row wrap">
+            <button
+              className="button button-secondary"
+              type="button"
+              onClick={handlePhishingExample}
+            >
+              Try Phishing Example
+            </button>
             <button id="url-scan-button" className="button button-primary" type="submit">
               Scan URL
             </button>

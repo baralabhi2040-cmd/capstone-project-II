@@ -29,25 +29,36 @@ function SmsScanner() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleScan = async (e) => {
-    e.preventDefault();
+  const runScan = async (targetSender, targetMessage) => {
     setError("");
     setResult(null);
 
-    if (!isNonEmptyText(message)) {
+    if (!isNonEmptyText(targetMessage)) {
       setError("Please enter the SMS content.");
       return;
     }
 
     try {
       setLoading(true);
-      const data = await scanSms({ sender, message });
+      const data = await scanSms({ sender: targetSender, message: targetMessage });
       setResult(data);
     } catch (err) {
       setError(err?.response?.data?.detail || "Failed to scan SMS.");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleScan = async (e) => {
+    e.preventDefault();
+    runScan(sender, message);
+  };
+
+  const handlePhishingExample = () => {
+    const example = presets[1];
+    setSender(example.sender);
+    setMessage(example.message);
+    runScan(example.sender, example.message);
   };
 
   return (
@@ -120,6 +131,13 @@ function SmsScanner() {
           </div>
 
           <div className="row wrap">
+            <button
+              className="button button-secondary"
+              type="button"
+              onClick={handlePhishingExample}
+            >
+              Try Phishing Example
+            </button>
             <button id="sms-scan-button" className="button button-primary" type="submit">
               Scan SMS
             </button>

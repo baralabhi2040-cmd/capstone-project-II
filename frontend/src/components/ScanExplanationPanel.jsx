@@ -48,6 +48,11 @@ function ScanExplanationPanel({ result, inputSummary }) {
   const channel = (result.channel || "url").toLowerCase();
   const inspectedSignals = channelSignals[channel] || channelSignals.url;
   const indicators = result.indicators || [];
+  const riskFactors = result.risk_factors || [];
+  const explanation = result.explanation || result.summary;
+  const recommendedActions = result.recommended_actions?.length
+    ? result.recommended_actions
+    : [result.recommendation].filter(Boolean);
   const topIndicators = indicators
     .filter((indicator) => indicator.impact > 0 || indicator.source === "ml")
     .slice(0, 4);
@@ -103,6 +108,12 @@ function ScanExplanationPanel({ result, inputSummary }) {
                   </li>
                 ))}
               </ul>
+            ) : riskFactors.length ? (
+              <ul>
+                {riskFactors.slice(0, 4).map((factor) => (
+                  <li key={factor}>{factor}</li>
+                ))}
+              </ul>
             ) : (
               <p>No strong phishing indicators were found in this scan.</p>
             )}
@@ -113,7 +124,7 @@ function ScanExplanationPanel({ result, inputSummary }) {
           <span className="explanation-step-index">4</span>
           <div>
             <h4>Why this matters</h4>
-            <p>{result.summary}</p>
+            <p>{explanation}</p>
           </div>
         </div>
 
@@ -121,7 +132,15 @@ function ScanExplanationPanel({ result, inputSummary }) {
           <span className="explanation-step-index">5</span>
           <div>
             <h4>Recommended user action</h4>
-            <p>{result.recommendation}</p>
+            {recommendedActions.length > 1 ? (
+              <ul>
+                {recommendedActions.map((action) => (
+                  <li key={action}>{action}</li>
+                ))}
+              </ul>
+            ) : (
+              <p>{result.recommendation}</p>
+            )}
           </div>
         </div>
 

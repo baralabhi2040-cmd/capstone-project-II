@@ -4,6 +4,7 @@ import { sendSnapshotEmail } from "../api/api";
 import { useAuth } from "../context/AuthContext";
 import RiskMeter from "./RiskMeter";
 import ScanExplanationPanel from "./ScanExplanationPanel";
+import SuspiciousContentHighlighter from "./SuspiciousContentHighlighter";
 
 function ScanResultCard({ result, inputSummary = null }) {
   const { user, isVerified } = useAuth();
@@ -33,6 +34,11 @@ function ScanResultCard({ result, inputSummary = null }) {
   const confidence = Math.round((result.confidence || 0) * 100);
   const indicators = result.indicators || [];
   const visibleIndicators = indicators.slice(0, 6);
+  const riskFactors = result.risk_factors || [];
+  const explanation = result.explanation || result.summary;
+  const recommendedActions = result.recommended_actions?.length
+    ? result.recommended_actions
+    : [result.recommendation].filter(Boolean);
   const riskBadgeClass =
     result.risk_level === "CRITICAL" || result.risk_level === "HIGH"
       ? "badge-danger"
@@ -75,7 +81,7 @@ function ScanResultCard({ result, inputSummary = null }) {
         <div>
           <p className="small result-eyebrow">Hybrid verdict</p>
           <h3 style={{ margin: "6px 0 8px" }}>Scan Result</h3>
-          <p className="result-summary">{result.summary}</p>
+          <p className="result-summary">{explanation}</p>
         </div>
         <div className="result-badge-stack">
           <span
@@ -126,6 +132,8 @@ function ScanResultCard({ result, inputSummary = null }) {
         />
       </div>
 
+      <SuspiciousContentHighlighter result={result} inputSummary={inputSummary} />
+
       <div className="result-detail-grid">
         <div id="risk-indicators-panel" className="insight-panel">
           <p className="small strong">Why it was flagged</p>
@@ -141,12 +149,28 @@ function ScanResultCard({ result, inputSummary = null }) {
                 <p className="indicator-detail">{indicator.detail}</p>
               </div>
             ))}
+            {!visibleIndicators.length && riskFactors.length ? (
+              riskFactors.slice(0, 5).map((factor) => (
+                <div key={factor} className="indicator-item">
+                  <p className="indicator-title">Risk factor</p>
+                  <p className="indicator-detail">{factor}</p>
+                </div>
+              ))
+            ) : null}
           </div>
         </div>
 
         <div id="recommended-action-panel" className="insight-panel recommendation-panel">
           <p className="small strong">Recommended action</p>
-          <p className="recommendation-text">{result.recommendation}</p>
+          {recommendedActions.length > 1 ? (
+            <ul className="recommendation-list">
+              {recommendedActions.map((action) => (
+                <li key={action}>{action}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="recommendation-text">{result.recommendation}</p>
+          )}
           <div className="recommendation-note">
             <p className="small" style={{ margin: 0 }}>
               The final score is a hybrid result: the ML model looks for phishing-like patterns,
