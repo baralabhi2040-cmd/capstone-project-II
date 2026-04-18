@@ -43,7 +43,11 @@ const posterPreview = {
     "Use this section during a live exhibition to move from the academic poster into the working product demo.",
 };
 
+const assetSrc = (path) => `${path}?v=phishguard-showcase-20260418`;
+
 function ImagePreviewCard({ title, image, caption, onOpen }) {
+  const [imageFailed, setImageFailed] = useState(false);
+
   return (
     <article className="showcase-image-card">
       <button
@@ -51,12 +55,28 @@ function ImagePreviewCard({ title, image, caption, onOpen }) {
         className="showcase-image-button"
         onClick={() => onOpen({ title, image })}
       >
-        <img src={image} alt={`${title} preview`} loading="lazy" />
-        <span>Open preview</span>
+        {imageFailed ? (
+          <div className="showcase-image-fallback">
+            <strong>Preview image not found</strong>
+            <small>{image}</small>
+            <em>Check that this file exists in frontend/public.</em>
+          </div>
+        ) : (
+          <img
+            src={assetSrc(image)}
+            alt={`${title} preview`}
+            loading="lazy"
+            onError={() => setImageFailed(true)}
+          />
+        )}
+        <span>{imageFailed ? "Open path" : "Open preview"}</span>
       </button>
       <div className="showcase-card-copy">
         <h4>{title}</h4>
         <p>{caption}</p>
+        <a className="showcase-asset-link" href={image} target="_blank" rel="noreferrer">
+          Open asset directly
+        </a>
       </div>
     </article>
   );
@@ -197,7 +217,10 @@ function Showcase() {
                 Close
               </button>
             </div>
-            <img src={activePreview.image} alt={`${activePreview.title} enlarged preview`} />
+            <img
+              src={assetSrc(activePreview.image)}
+              alt={`${activePreview.title} enlarged preview`}
+            />
           </div>
         </div>
       ) : null}

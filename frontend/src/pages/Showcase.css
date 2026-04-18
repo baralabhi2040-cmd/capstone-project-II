@@ -101,6 +101,36 @@
   transition: transform 0.28s ease;
 }
 
+.showcase-image-fallback {
+  min-height: 260px;
+  display: grid;
+  place-items: center;
+  gap: 10px;
+  padding: 28px;
+  color: #bdf5ff;
+  text-align: center;
+  background:
+    radial-gradient(circle at center, rgba(65, 219, 255, 0.12), transparent 56%),
+    repeating-linear-gradient(
+      135deg,
+      rgba(65, 219, 255, 0.06) 0 10px,
+      transparent 10px 22px
+    );
+}
+
+.showcase-image-fallback strong {
+  font-family: var(--title-font);
+  font-size: 1.15rem;
+}
+
+.showcase-image-fallback small,
+.showcase-image-fallback em {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  color: var(--muted);
+  font-style: normal;
+}
+
 .showcase-image-card:hover .showcase-image-button img {
   transform: scale(1.015);
 }
@@ -126,6 +156,19 @@
   display: grid;
   gap: 8px;
   padding: 18px;
+}
+
+.showcase-asset-link {
+  width: fit-content;
+  color: #5de7ff;
+  font-size: 0.84rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.showcase-asset-link:hover {
+  color: #ffffff;
+  text-decoration: underline;
 }
 
 .showcase-card-copy h4,
